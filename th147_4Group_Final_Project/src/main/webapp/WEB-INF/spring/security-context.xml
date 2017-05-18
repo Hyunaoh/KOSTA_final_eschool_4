@@ -1,70 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="
-    http://www.springframework.org/schema/security
-    http://www.springframework.org/schema/security/spring-security-3.1.xsd
-    http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
-	<!-- 1단계 처리하기 ROLE_USER 권한 ROLE_ADMIN 권한 notice.jsp -> noticeDetail -> 인증(auto-config="true") 
-		-> Spring 제공하는 login Form 이동 -> ID, PWD 검증 (in-memory) -> kglim , 1004 인증을 
-		받으면 어떤 권한 : ROLE_USER 권한 획득 -> Web .xml 필터 적용하기 -> 3.x.x => access="ROLE_USER" 
-		-> 4.x.x => access="hasRole('ROLE_USER')" TEST : kingsmile ,1004 상세 TEST 
-		: admin ,1004 글쓰기 , 상세 <security:http auto-config="true"> <security:intercept-url 
-		pattern="/customer/noticeDetail.htm" access="ROLE_USER" /> <security:intercept-url 
-		pattern="/customer/noticeReg.htm" access="ROLE_ADMIN" /> </security:http> 
-		<security:authentication-manager> <security:authentication-provider> <security:user-service> 
-		<security:user name="kingsmile" password="1004" authorities="ROLE_USER"/> 
-		<security:user name="admin" password="1004" authorities="ROLE_USER,ROLE_ADMIN"/> 
-		</security:user-service> </security:authentication-provider> </security:authentication-manager> -->
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- 2단계 처리 사용자가 정의한 loginForm 사용하기 ->auto-config="true" (x) -><security:form-login 
-		login-page="/joinus/login.htm" /> ->authentication-failure-url="/joinus/login.htm?error" 
-		/> 로그인 실패 -><security:logout logout-success-url="/index.htm" /> 로그아웃처리 -->
-	<security:http auto-config="true"></security:http>
-	<security:http>
-		<security:form-login login-page="/login/login.jsp"
-			authentication-failure-url="/login/error.jsp" 
-			default-target-url="/index.do"/>
-			
-		<security:logout logout-success-url="../index.jsp" />
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mariadb://reddezi.synology.me:3306/schooldb"></property>
+		<property name="username" value="maria"></property>
+		<property name="password" value="spring"></property>
+	</bean>
 
-		<!-- 1단계 : 파일 별로 권한 설정하기 <security:intercept-url pattern="/customer/noticeDetail.htm" 
-			access="ROLE_USER" /> <security:intercept-url pattern="/customer/noticeReg.htm" 
-			access="ROLE_ADMIN" /> -->
-		<!-- 2단계 : Pattern 권한 설정하기 aaaReg.htm , bbbb_Reg.htm 적용 <security:intercept-url 
-			pattern="/customer/*" access="ROLE_USER" /> customer 폴더 모든 파일 <security:intercept-url 
-			pattern="/customer/**" access="ROLE_USER" /> customer 폴더 안의 하위 폴더까지 포함 <security:intercept-url 
-			pattern="/customer/*.htm" access="ROLE_USER" /> a.htm , bbb.htm <security:intercept-url 
-			pattern="/customer/*Reg.htm" access="ROLE_USER" /> NoitceReg.htm , aa_Reg.htm -->
-		<!-- <security:intercept-url pattern="/customer/*.Reg.htm" access="ROLE_USER"/> -->
-	
-		<!-- 학생관련 설정 -->
-		<security:intercept-url pattern="/login/*" access="ROLE_STUDENT" />
-		<!-- 선생관련 설정 -->
-		<security:intercept-url pattern="/login/*" access="ROLE_TEACHER"/>
-		<!-- 학부모관련 설정 -->
-		<security:intercept-url pattern="/login/*" access="ROLE_PARENT"/>
-		<!-- ADMIN관련 설정 -->
-		<security:intercept-url pattern="/login/*" access="ROLE_ADMIN"/>
-	</security:http>	
-	
-	<security:authentication-manager>
-		<security:authentication-provider>
-		
-			<!-- 1단계 in-memory 방식 <security:user-service> <security:user name="kglim" 
-				password="1004" authorities="ROLE_USER"/> <security:user name="admin" password="1004" 
-				authorities="ROLE_USER,ROLE_ADMIN"/> 
-				</security:user-service> -->
-				
-			<!-- 2단계 Spring security JDBC -->
-			<security:jdbc-user-service
-				data-source-ref="driverManagerDataSource"
-				users-by-username-query="SELECT USERID, pwd AS PASSWORD, 1 enabled FROM STUDENT where userid=?"
-				authorities-by-username-query="select m.USERID , r.ROLE_NAME  
-											from STUDENT m join roll r 
-											on m.userid = r.userid 
-											where m.userid=?" />
-		</security:authentication-provider>
-	</security:authentication-manager>
+<security:http>
+      <security:form-login login-page="/login/login.jsp"
+      username-parameter="id"
+      password-parameter="pw"
+         login-processing-url="/j_spring_security_check"
+         default-target-url="/home.do"
+         />
+         
+      
+      <security:logout logout-success-url="/logout.do"/>
+
+   </security:http>   
+   <security:authentication-manager>
+      <security:authentication-provider>
+         
+         <security:jdbc-user-service data-source-ref="dataSource"
+         users-by-username-query="SELECT e_ID, e_pw, 1 enabled FROM MEMBER where e_id=?" 
+         authorities-by-username-query="select e_ID , e_position
+                                 from MEMBER
+                                 where e_id=?" />
+      </security:authentication-provider>
+   </security:authentication-manager>
 </beans>
