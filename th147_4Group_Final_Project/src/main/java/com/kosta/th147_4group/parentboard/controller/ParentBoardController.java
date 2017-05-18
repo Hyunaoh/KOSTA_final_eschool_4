@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kosta.th147_4group.parentboard.dao.ParentBaordDao;
 
 @Controller
+@RequestMapping("/parentboard")
 public class ParentBoardController {
 
 	@Autowired
