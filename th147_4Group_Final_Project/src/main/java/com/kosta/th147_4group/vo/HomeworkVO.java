@@ -10,6 +10,7 @@ public class HomeworkVO {
 	private String seq;
 	private String hw_id;
 	private String hw_title;
+	private String hw_writer;
 	private Date hw_ymd;
 	private String hw_filesrc;
 	private String hw_filesrc2;
@@ -62,6 +63,12 @@ public class HomeworkVO {
 	public void setHw_title(String hw_title) {
 		this.hw_title = hw_title;
 	}
+	public String getHw_writer() {
+		return hw_writer;
+	}
+	public void setHw_writer(String hw_writer) {
+		this.hw_writer = hw_writer;
+	}
 	public Date getHw_ymd() {
 		return hw_ymd;
 	}
@@ -88,9 +95,9 @@ public class HomeworkVO {
 	}
 	@Override
 	public String toString() {
-		return "HomeworkVO [seq=" + seq + ", hw_id=" + hw_id + ", hw_title=" + hw_title + ", hw_ymd=" + hw_ymd
-				+ ", hw_filesrc=" + hw_filesrc + ", hw_filesrc2=" + hw_filesrc2 + ", hw_hit=" + hw_hit + ", hw_content="
-				+ hw_content + ", files=" + files + ", file=" + file + "]";
+		return "HomeworkVO [seq=" + seq + ", hw_id=" + hw_id + ", hw_title=" + hw_title + ", hw_writer=" + hw_writer
+				+ ", hw_ymd=" + hw_ymd + ", hw_filesrc=" + hw_filesrc + ", hw_filesrc2=" + hw_filesrc2 + ", hw_hit="
+				+ hw_hit + ", hw_content=" + hw_content + ", files=" + files + ", file=" + file + "]";
 	}
-
 }
+	
