@@ -21,9 +21,12 @@
 	<!-- 2단계 처리 사용자가 정의한 loginForm 사용하기 ->auto-config="true" (x) -><security:form-login 
 		login-page="/joinus/login.htm" /> ->authentication-failure-url="/joinus/login.htm?error" 
 		/> 로그인 실패 -><security:logout logout-success-url="/index.htm" /> 로그아웃처리 -->
+	<security:http auto-config="true"></security:http>
 	<security:http>
 		<security:form-login login-page="/login/login.jsp"
-			authentication-failure-url="/login/error.jsp" />
+			authentication-failure-url="/login/error.jsp" 
+			default-target-url="/index.do"/>
+			
 		<security:logout logout-success-url="../index.jsp" />
 
 		<!-- 1단계 : 파일 별로 권한 설정하기 <security:intercept-url pattern="/customer/noticeDetail.htm" 
@@ -35,24 +38,31 @@
 			pattern="/customer/*.htm" access="ROLE_USER" /> a.htm , bbb.htm <security:intercept-url 
 			pattern="/customer/*Reg.htm" access="ROLE_USER" /> NoitceReg.htm , aa_Reg.htm -->
 		<!-- <security:intercept-url pattern="/customer/*.Reg.htm" access="ROLE_USER"/> -->
-		<security:intercept-url pattern="/customer/*"
-			access="ROLE_USER" />
-		<security:intercept-url pattern="/admin/**"
-			access="ROLE_ADMIN" />
-
-
-	</security:http>
+	
+		<!-- 학생관련 설정 -->
+		<security:intercept-url pattern="/login/*" access="ROLE_STUDENT" />
+		<!-- 선생관련 설정 -->
+		<security:intercept-url pattern="/login/*" access="ROLE_TEACHER"/>
+		<!-- 학부모관련 설정 -->
+		<security:intercept-url pattern="/login/*" access="ROLE_PARENT"/>
+		<!-- ADMIN관련 설정 -->
+		<security:intercept-url pattern="/login/*" access="ROLE_ADMIN"/>
+	</security:http>	
+	
 	<security:authentication-manager>
 		<security:authentication-provider>
+		
 			<!-- 1단계 in-memory 방식 <security:user-service> <security:user name="kglim" 
 				password="1004" authorities="ROLE_USER"/> <security:user name="admin" password="1004" 
-				authorities="ROLE_USER,ROLE_ADMIN"/> </security:user-service> -->
+				authorities="ROLE_USER,ROLE_ADMIN"/> 
+				</security:user-service> -->
+				
 			<!-- 2단계 Spring security JDBC -->
 			<security:jdbc-user-service
 				data-source-ref="driverManagerDataSource"
-				users-by-username-query="SELECT USERID, pwd AS PASSWORD, 1 enabled FROM member where userid=?"
+				users-by-username-query="SELECT USERID, pwd AS PASSWORD, 1 enabled FROM STUDENT where userid=?"
 				authorities-by-username-query="select m.USERID , r.ROLE_NAME  
-											from member m join roll r 
+											from STUDENT m join roll r 
 											on m.userid = r.userid 
 											where m.userid=?" />
 		</security:authentication-provider>
