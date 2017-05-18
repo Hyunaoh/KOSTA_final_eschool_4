@@ -10,7 +10,7 @@ public class CareerController {
 	
 	@RequestMapping(value="/career.do")
 	public void career(){
-		
+		/*기동이형 테스트 수정*/
 	}
 
 }
