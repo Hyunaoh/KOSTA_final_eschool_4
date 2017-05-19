@@ -50,7 +50,7 @@
 		<!-- <security:intercept-url pattern="/customer/*.Reg.htm" access="ROLE_USER"/> -->
 	
 	
-		view단 설정이 아닌 controller mapping부분의 설정임
+		<!-- view단 설정이 아닌 controller mapping부분의 설정임 / access는 db상의 변수명-->
 		<!-- 학생관련 설정 -->
 		<security:intercept-url pattern="/views/schoolinfo/**" access="Role_Student" />
 		<security:intercept-url pattern="/views/career/**" access="Role_Student" />
