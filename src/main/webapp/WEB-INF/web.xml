@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	
+	<welcome-file-list>
+		<welcome-file>home.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		/WEB-INF/spring/school-context.xml
+		<!-- 1) security-context.xml을 완성하면 밑에 주석을 없애세요~(to.기동) -->
+		/WEB-INF/spring/security-context.xml
+		</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- 한글 필터 처리 -->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 2) Spring 보안 필터 -->
+   <filter>
+   		<filter-name>springSecurityFilterChain</filter-name>
+   		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+   </filter>
+   <filter-mapping>
+   		<filter-name>springSecurityFilterChain</filter-name>
+   		<url-pattern>/*</url-pattern>
+   </filter-mapping>
+   
+</web-app>
