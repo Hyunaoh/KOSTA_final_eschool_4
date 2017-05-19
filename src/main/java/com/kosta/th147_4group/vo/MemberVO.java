@@ -3,20 +3,35 @@ package com.kosta.th147_4group.vo;
 import java.util.Date;
 
 public class MemberVO {
-	private int num;	
-	private String id; 		// 선생님 ID
-	private String pw; 		// 선생님 비밀번호
-	private String name; 		// 선생님 이름
-	private String tel; 		// 선생님 핸드폰번호
-	private String site; 		// 선생님 주소
-	private String email; 	// 선생님 email
-	private String level; 	// 값 : 선생님
+	private int num;
+	private String id; // 선생님 ID
+	private String pw; // 선생님 비밀번호
+	private String name; // 선생님 이름
+	private String tel; // 선생님 핸드폰번호
+	private String site; // 선생님 주소
+	private String email; // 선생님 email
+	private String level; // 값 : 선생님
 	private Date date;
 	private String stName;
 	private String sms;
 
 	public MemberVO() {
+	}
 
+	public MemberVO(int num, String id, String pw, String name, String tel, String site, String email, String level,
+			Date date, String stName, String sms) {
+
+		this.num = num;
+		this.id = id;
+		this.pw = pw;
+		this.name = name;
+		this.tel = tel;
+		this.site = site;
+		this.email = email;
+		this.level = level;
+		this.date = date;
+		this.stName = stName;
+		this.sms = sms;
 	}
 
 	public int getNum() {
@@ -114,5 +129,4 @@ public class MemberVO {
 				+ sms + "]";
 	}
 
-	
 }

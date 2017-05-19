@@ -12,8 +12,8 @@
 			<dl class="join-form-row">
 				<dt class="join-form-title">아이디</dt>
 				<dd class="join-form-data">
-					<input type="text" name="id" /> <input id="btnCheckUid"
-						class="button" type="button" value="중복확인" />
+					<input type="text" name="id" /> 
+					<input id="btnCheckUid"	class="button" type="button" value="중복확인" />
 				</dd>
 			</dl>
 			<dl class="join-form-row">

@@ -5,33 +5,50 @@
    xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mariadb://reddezi.synology.me:3306/schooldb"></property>
-		<property name="username" value="maria"></property>
-		<property name="password" value="spring"></property>
-	</bean>
 
-<security:http>
-      <security:form-login login-page="/login/login.jsp"
-      username-parameter="id"
-      password-parameter="pw"
-         login-processing-url="/j_spring_security_check"
-         default-target-url="/home.do"
-         />
-         
-      
-      <security:logout logout-success-url="/logout.do"/>
-
-   </security:http>   
+	<security:http auto-config="true">
+      	<security:form-login login-page="/loginform.do"
+			authentication-failure-url="/login/error.jsp"
+			username-parameter="id"
+			password-parameter="pw"
+			login-processing-url="/j_spring_security_check"
+			default-target-url="/loginMain.do"/>
+			
+		<security:logout logout-success-url="/home.do" />
+		<!-- 추후 테스트 : <security:intercept-url pattern="/student/*" access="Role_Student"/> -->  
+       </security:http>   
+   
    <security:authentication-manager>
       <security:authentication-provider>
          
-         <security:jdbc-user-service data-source-ref="dataSource"
-         users-by-username-query="SELECT e_ID, e_pw, 1 enabled FROM MEMBER where e_id=?" 
-         authorities-by-username-query="select e_ID , e_position
+         <security:jdbc-user-service data-source-ref="driverManagerDataSource"
+         users-by-username-query="SELECT id, pw, 1 enabled FROM MEMBER where id=?" 
+         authorities-by-username-query="select id, level
                                  from MEMBER
-                                 where e_id=?" />
+                                 where id=?" />
       </security:authentication-provider>
    </security:authentication-manager>
 </beans>
+
+
+<!-- view단 설정이 아닌 controller mapping부분의 설정임 / access는 db상의 변수명-->
+		<!-- 학생관련 설정 -->
+		<!-- <security:intercept-url pattern="/student/*" access="Role_Student" /> -->
+		<!-- <security:intercept-url pattern="/career/**" access="Role_Student" />
+		<security:intercept-url pattern="/curriculum/**" access="Role_Student" />
+		<security:intercept-url pattern="/rollbook/**" access="Role_Student" />
+		<security:intercept-url pattern="/studentboard/**" access="Role_Student" />
+		
+		선생관련 설정
+		<security:intercept-url pattern="/*" access="Role_Teacher"/> 일반교사
+		<security:intercept-url pattern="/*" access="Role_ViceTeacher"/> 교감선생님
+		<security:intercept-url pattern="/*" access="Role_HeadTeacher"/> 교장선생님
+		
+		학부모관련 설정
+		<security:intercept-url pattern="/parentboard/*" access="Role_Parent"/>
+		<security:intercept-url pattern="/rollbook/**" access="Role_Parent" />
+		<security:intercept-url pattern="/message/**" access="Role_Parent" />
+		
+		ADMIN관련 설정
+		<security:intercept-url pattern="/*" access="Role_Admin"/>
+ 		 -->

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kosta.th147_4group.login.dao.LoginDao;
+import com.kosta.th147_4group.login.dao.LoginDAO;
 import com.kosta.th147_4group.vo.MemberVO;
 
 @Controller
@@ -57,6 +57,12 @@ public class LoginController {
 	@RequestMapping("/error.do")
 	public void Error() {
 		
+	}
+	
+	@RequestMapping("/student/test.do")
+	public String teststt(){
+		
+		return "login/student";
 	}
 
 }
