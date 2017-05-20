@@ -88,6 +88,7 @@
    	<welcome-file-list>
 >>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 		<welcome-file>home.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
 =======
