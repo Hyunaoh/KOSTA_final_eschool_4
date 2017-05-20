@@ -10,7 +10,11 @@ public class CareerController {
 	
 	@RequestMapping(value="/career.do")
 	public void career(){
+<<<<<<< HEAD
 		/*기동이형 테스트 수정*/
+=======
+		
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 	}
 
 }

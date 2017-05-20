@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
+=======
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -11,11 +19,19 @@
 		<!-- /WEB-INF/spring/servlet-context.xml -->
 		</param-value>
 	</context-param>
+<<<<<<< HEAD
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+=======
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -33,21 +49,43 @@
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
+<<<<<<< HEAD
 		<init-param>
 			<param-name>forceEncoding</param-name>
 			<param-value>true</param-value>
 		</init-param>
+=======
+	<init-param>
+		<param-name>forceEncoding</param-name>
+		<param-value>true</param-value>
+	</init-param>
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 	</filter>
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+<<<<<<< HEAD
 
 	<!-- Spring 보안 필터 -->
 	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
 		</filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name> <url-pattern>/*</url-pattern> </filter-mapping> -->
 
 	<welcome-file-list>
+=======
+	
+	<!-- Spring 보안 필터 -->
+   <!-- <filter>
+   		<filter-name>springSecurityFilterChain</filter-name>
+   		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+   </filter>
+   <filter-mapping>
+   		<filter-name>springSecurityFilterChain</filter-name>
+   		<url-pattern>/*</url-pattern>
+   </filter-mapping> -->
+   
+   	<welcome-file-list>
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 		<welcome-file>home.jsp</welcome-file>
 	</welcome-file-list>
 

@@ -8,10 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 	test : ${ test }
 	
 	<c:forEach var="vo" items="${ kvo }">
 		${ vo.koGrade }
 	</c:forEach>
+=======
+
+	
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 </body>
 </html>

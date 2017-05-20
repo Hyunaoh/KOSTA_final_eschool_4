@@ -13,6 +13,10 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	private SqlSession sqlSession;
 
 	public KoreanVO getKorean(String koGrade) {
+<<<<<<< HEAD
+=======
+		koGrade = "1";
+>>>>>>> 0b4db116b6643780de43675333371159706cd6cd
 		return sqlSession.selectOne(koGrade);
 	}
 
