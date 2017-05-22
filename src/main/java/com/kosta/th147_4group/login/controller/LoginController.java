@@ -8,8 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.kosta.th147_4group.login.dao.LoginDAO;
+import com.kosta.th147_4group.login.dao.MemberDAO;
 import com.kosta.th147_4group.vo.MemberVO;
 
 @Controller
@@ -39,9 +40,31 @@ public class LoginController {
 	// 회원가입 성공
 	@RequestMapping(value = "join.do", method = RequestMethod.POST)
 	public String Join(MemberVO memberVO) throws ClassNotFoundException, SQLException {
-		//loginDao.insertTeacherMember(teacherVO);
-
-		return "redirect:../index.do";
+		//memberVO.setDate(date);
+		MemberDAO dao =sqlSession.getMapper(MemberDAO.class);
+		
+		dao.insertMember(memberVO);
+		//#{date}
+		System.out.println("회원가입 요청");
+		return "loginMain.do";
+	}
+	
+	@RequestMapping("회원목록출력.do")
+	public ModelAndView viewMember(String id) throws ClassNotFoundException, SQLException {
+		
+		ModelAndView mav = new ModelAndView();
+		MemberDAO dao =sqlSession.getMapper(MemberDAO.class); //interface를 꼭 쓰고싶으면 이 한줄을 써야함
+		
+		MemberVO vo = dao.getMember(id);
+		
+		// user => jsp에서 사용되는 이름
+		// vp => 자바코드에서 데이터를 담고있는 변수
+		
+		mav.addObject("user", vo);
+		mav.setViewName("viewMember");
+		
+		return mav;
+		
 	}
 	
 	// ID / PWD 찾기

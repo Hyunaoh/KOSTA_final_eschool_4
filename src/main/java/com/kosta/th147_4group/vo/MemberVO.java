@@ -2,24 +2,28 @@ package com.kosta.th147_4group.vo;
 
 import java.util.Date;
 
+
 public class MemberVO {
-	private int num;
-	private String id; // 선생님 ID
-	private String pw; // 선생님 비밀번호
-	private String name; // 선생님 이름
-	private String tel; // 선생님 핸드폰번호
-	private String site; // 선생님 주소
-	private String email; // 선생님 email
-	private String level; // 값 : 선생님
-	private Date date;
-	private String stName;
-	private String sms;
+	private int num;		// 가입순번
+	private String id; 		// ID			***
+	private String pw; 		// 비밀번호
+	private String name; 	// 이름
+	private String tel; 	// 핸드폰번호
+	private String site; 	// 주소
+	private String email; 	// email
+	private String level; 	// 직급 
+	private Date date;		// 가입날짜
+	private String stName;	// 자녀의 이름		***
+	private String sms;		// sms 동의 여부
+	private String gender;	// 성별
+	private String grade;	// 학년
+	private String schoolClass;  	// 반 
 
 	public MemberVO() {
 	}
 
 	public MemberVO(int num, String id, String pw, String name, String tel, String site, String email, String level,
-			Date date, String stName, String sms) {
+			Date date, String stName, String sms, String gender, String grade, String schoolClass) {
 
 		this.num = num;
 		this.id = id;
@@ -32,6 +36,9 @@ public class MemberVO {
 		this.date = date;
 		this.stName = stName;
 		this.sms = sms;
+		this.gender = gender;
+		this.grade = grade;
+		this.schoolClass = schoolClass;
 	}
 
 	public int getNum() {
@@ -128,5 +135,34 @@ public class MemberVO {
 				+ site + ", email=" + email + ", level=" + level + ", date=" + date + ", stName=" + stName + ", sms="
 				+ sms + "]";
 	}
+
+	public void insert(MemberVO memberVO) {
+		
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getSchoolClass() {
+		return schoolClass;
+	}
+
+	public void setSchoolClass(String schoolClass) {
+		this.schoolClass = schoolClass;
+	}
+
 
 }
