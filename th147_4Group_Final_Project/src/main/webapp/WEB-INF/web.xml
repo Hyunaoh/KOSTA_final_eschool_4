@@ -4,15 +4,23 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	
-	<context-param>
+<!-- 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		/WEB-INF/spring/school-context.xml
-		<!-- security-context.xml을 완성하면 밑에 주석을 없애세요~(to.기동) -->
-		<!-- /WEB-INF/spring/security-context.xml -->
-		<!-- /WEB-INF/spring/servlet-context.xml -->
+		security-context.xml을 완성하면 밑에 주석을 없애세요~(to.기동)
+		/WEB-INF/spring/security-context.xml
+		/WEB-INF/spring/servlet-context.xml
 		</param-value>
+	</context-param> -->
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:config/spring/context-*.xml</param-value>
 	</context-param>
+	
+
+
 	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -26,7 +34,8 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-
+	
+	
 	<!-- 한글 필터 처리 -->
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
