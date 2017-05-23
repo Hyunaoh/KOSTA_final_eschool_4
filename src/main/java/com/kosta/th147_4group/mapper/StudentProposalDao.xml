@@ -36,6 +36,21 @@
 		ORDER BY rownum ASC
 	</select>
 	
+	<!-- 글 등록 -->
+	<insert id="insert">
+     <!-- int insert( Notice n ) 
+        INSERT INTO TNOTICES(SEQ, TITLE, CONTENT, WRITER, REGDATE, HIT, FILESRC , FILESRC2)
+        VALUES( (SELECT MAX(TO_NUMBER(SEQ))+1 FROM TNOTICES), :title, :content, :writer, SYSDATE, 0, :fileSrc , :fileSrc2)
+     
+     
+     -->
+      <selectKey order="BEFORE" keyProperty="seq" resultType="String">
+       SELECT NVL(MAX(TO_NUMBER(SEQ)),0)+1 FROM NOTICES
+      </selectKey>
+      INSERT INTO NOTICES(SEQ, TITLE, CONTENT, WRITER, REGDATE, HIT, FILESRC , FILESRC2)
+      VALUES( #{seq}, #{title}, #{content}, #{writer}, SYSDATE, 0, #{fileSrc ,jdbcType=VARCHAR} , #{fileSrc2 ,jdbcType=VARCHAR})
+     </insert>
+	
 	
 
 </mapper> 
