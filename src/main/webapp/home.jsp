@@ -188,7 +188,7 @@ $(document).ready(function () {
 			</div>
 		</div>
 		
-		<%-- <ul id="loginmenu" class="block_hlist">
+		<ul id="loginmenu" class="block_hlist">
 													<!-- Spring 을 통한 login 과 logout 처리 -->
 									
 													<li><a href="${pageContext.request.contextPath}/home.do">HOME</a></li>
@@ -197,6 +197,8 @@ $(document).ready(function () {
 													<se:authorize ifNotGranted="ROLE_USER">
 														<li><a href="${pageContext.request.contextPath}/loginform.do">로그인</a></li>
 														<li><a href="${pageContext.request.contextPath}/joinform.do">회원가입</a></li>
+														<li><a href="${pageContext.request.contextPath}/studentProposalForm.do">출력 학생게시판</a></li>
+														<li><a href="${pageContext.request.contextPath}/studentProposal.do">학생게시판</a></li>
 													</se:authorize>
 										
 													<se:authentication property="name" var="LoingUser" />
@@ -204,8 +206,8 @@ $(document).ready(function () {
 													<se:authorize ifAnyGranted="ROLE_USER,ROLE_ADMIN">
 														<li><a href="${pageContext.request.contextPath}/j_spring_security_logout">(${LoingUser})로그아웃</a></li>
 													</se:authorize>
-												</ul> --%>
-		
+												</ul>
+												
 		<!-- 움직이는 그림 아래 큰 메뉴별 태그 -->
 		<div class="sqs-layout sqs-grid-12 columns-12" data-type="page" data-updated-on="" id="page2">
 		
