@@ -2,20 +2,24 @@ package com.kosta.th147_4group.vo;
 
 public class KoreanVO {
 
-	private String koGrade; 		// 학년
-	private String koClass; 		// 반
-	private String koMessage; 		// 내용
-	private String koDate; 			// 날짜
-	private String koName; 			// 교사명
-	private String koCategoly; 		// 소분류
-	private String koBungi; 		// 분기(1/2/3/4)
+	private int rownum;
+	private String koRnum;
+	private String koGrade; // 학년
+	private String koClass; // 반
+	private String koMessage; // 내용
+	private String koDate; // 날짜
+	private String koName; // 교사명
+	private String koCategoly; // 소분류
+	private String koBungi; // 분기(1/2/3/4)
 
 	public KoreanVO() {
 
 	}
 
-	public KoreanVO(String koGrade, String koClass, String koMessage, String koDate, String koName, String koCategoly,
-			String koBungi) {
+	public KoreanVO(int rownum, String koRnum, String koGrade, String koClass, String koMessage, String koDate, String koName, String koCategoly, String koBungi) {
+
+		this.rownum = rownum;
+		this.koRnum = koRnum;
 		this.koGrade = koGrade;
 		this.koClass = koClass;
 		this.koMessage = koMessage;
@@ -23,6 +27,22 @@ public class KoreanVO {
 		this.koName = koName;
 		this.koCategoly = koCategoly;
 		this.koBungi = koBungi;
+	}
+
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
+
+	public String getKoRnum() {
+		return koRnum;
+	}
+
+	public void setKoRnum(String koRnum) {
+		this.koRnum = koRnum;
 	}
 
 	public String getKoGrade() {
@@ -83,8 +103,8 @@ public class KoreanVO {
 
 	@Override
 	public String toString() {
-		return "KoreanVO [koGrade=" + koGrade + ", koClass=" + koClass + ", koMessage=" + koMessage + ", koDate="
-				+ koDate + ", koName=" + koName + ", koCategoly=" + koCategoly + ", koBungi=" + koBungi + "]";
+		return "KoreanVO [rownum=" + rownum + ", koRnum=" + koRnum + ", koGrade=" + koGrade + ", koClass=" + koClass + ", koMessage=" + koMessage + ", koDate=" + koDate + ", koName=" + koName
+				+ ", koCategoly=" + koCategoly + ", koBungi=" + koBungi + "]";
 	}
 
 }

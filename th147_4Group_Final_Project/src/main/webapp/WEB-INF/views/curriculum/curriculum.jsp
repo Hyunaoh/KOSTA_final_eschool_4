@@ -8,15 +8,34 @@
 <title>Insert title here</title>
 </head>
 <body>
-<<<<<<< HEAD
 	test : ${ test }
+	<br/>
 	
-	<c:forEach var="vo" items="${ kvo }">
+	String 띄우기
+	
+	<br/>
+	${ kvo.koRnum }
+	${ kvo.koGrade }
+	${ kvo.koClass }
+	${ kvo.koMessage }
+	${ kvo.koDate }
+	${ kvo.koName }
+	${ kvo.koCategoly }
+	
+	
+	<br/>
+	List 띄우기
+	<br/>
+	<c:forEach var="vo" items="${kvoList}">
 		${ vo.koGrade }
+		${ vo.koClass }
+		${ vo.koMessage }
+		${ vo.koDate }
+		${ vo.koName }
+		${ vo.koCategoly }
+		<br/>
 	</c:forEach>
-=======
-
 	
->>>>>>> 0b4db116b6643780de43675333371159706cd6cd
+
 </body>
 </html>

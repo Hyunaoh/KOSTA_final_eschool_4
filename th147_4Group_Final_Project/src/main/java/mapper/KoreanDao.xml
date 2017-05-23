@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
-<mapper namespace="com.kosta.th147_4group.schoolinfo.dao.SchoolInfoDao">
+<mapper namespace="sqlSession">
 
 	<!-- <select id="getKoreanCount" resultType="Integer">
 		SELECT COUNT(*) CNT
@@ -19,21 +19,43 @@
 		SELECT * FROM KOREAN WHERE KO_GD=#{koGrade}
 	</select> -->
 	
-<!-- 	<select id="getAllKorean" resultType="com.kosta.th147_4group.vo.KoreanVO">
-		List<Notice> getNotices(int page, String field, String query) int 
-			srow = 1 + (page-1)*5; int erow = 5 + (page-1)*5;
-		SELECT * FROM KOREAN
+<!-- 	<select id="getAllKoreanCnt" resultType="int">
+		Notice getNotice(String seq) parameter 하나짜리는[ 변수이름 ] (param1 은 안되요)
+		SELECT count(*) FROM KOREAN 
 	</select> -->
 	
-	<select id="getKorean" resultType="com.kosta.th147_4group.vo.KoreanVO">
+	<!-- 모든 데이터 받아오기 -->
+	<select id="getAllKorean" resultType="com.kosta.th147_4group.vo.KoreanVO">
+		<!-- getNotices(int page, String field, String query) int 
+			srow = 1 + (page-1)*5; int erow = 5 + (page-1)*5; -->
+		SELECT * FROM KOREAN 
+	</select> 
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 -->
+	<select id="getKorean" parameterType="String" resultType="com.kosta.th147_4group.vo.KoreanVO">
 		<!-- Notice getNotice(String seq) parameter 하나짜리는[ 변수이름 ] (param1 은 안되요) -->
-		SELECT * FROM KOREAN WHERE KO_GD=#{koGrade}
+		SELECT * FROM KOREAN WHERE koGrade=#{koGrade}
 	</select>
 	
-<!-- 	<delete id="delete">
-		int delete(String seq) parameterType="Interger" 을 생략해 볼게요
-		DELETE KOREAN WHERE KO_GD=#{koGrade}
-	</delete> -->
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteKoreanByNum" parameterType="int" >
+		DELETE KOREAN WHERE koRnum=#{koRnum}
+	</delete> 
+	
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.KoreanVO" >
+		SELECT k.rownum as rownum, k.koRnum as koRnum, k.koGrade as koGrade, k.koClass as koClass, k.koMessage as koMessage,
+        k.koDate as koDate, k.koName as koName, k.koCategoly as koCategoly, k.koBungi as koBungi 
+		FROM
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, KOREAN.*
+		FROM
+		KOREAN, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) k
+		WHERE k.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
 	
 <!-- 	<update id="update">
 		int update(Notice notice) parameter 객체로 ..... Notice 객체 (만약에 setter 

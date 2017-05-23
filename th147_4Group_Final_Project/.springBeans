@@ -8,11 +8,10 @@
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
 		<config>src/main/webapp/WEB-INF/spring/school-context.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/security-context2.xml</config>
-		<config>src/main/webapp/WEB-INF/spring/security-context.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>src/main/webapp/WEB-INF/dispatcher-servlet.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/security-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/servlet-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

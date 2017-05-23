@@ -1,21 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 Manifest-Version: 1.0
 Built-By: kosta
 Build-Jdk: 1.8.0_111
 Created-By: Maven Integration for Eclipse
 
-=======
-Manifest-Version: 1.0
-Built-By: kosta
-Build-Jdk: 1.8.0_111
-Created-By: Maven Integration for Eclipse
-
->>>>>>> 0b4db116b6643780de43675333371159706cd6cd
-=======
-Manifest-Version: 1.0
-Built-By: youki
-Build-Jdk: 1.8.0_131
-Created-By: Maven Integration for Eclipse
-
->>>>>>> origin/gidong
