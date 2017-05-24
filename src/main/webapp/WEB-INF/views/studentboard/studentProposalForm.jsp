@@ -33,34 +33,37 @@
 							<th>${ vo.stNum }</th>
 							 <th><select name="stGrade" id="stGrade" class="st_form">
 							<option value="${ vo.stGrade }">${ vo.stGrade }학년</option>
-							<option value="1">1학년</option> 
-							<option value="2">2학년</option>
-							<option value="3">3학년</option>
-							<option value="4">4학년</option>
-							<option value="5">5학년</option>
-							<option value="6">6학년</option>
+							
 
 					</select></th>
 					<th><select name="stSchoolClass" id="stSchoolClass" class="st_form" value="${ vo.stSchoolClass }">
 							<option value="${ vo.stSchoolClass }">${ vo.stSchoolClass }반</option>
-							<option value="1">1반</option>
-							<option value="2">2반</option>
-							<option value="3">3반</option>
-							<option value="4">4반</option>
-							<option value="5">5반</option>
+							
 					</select></th>
-					<th><input type="text" name="stTitle" id="stTitle" value="${ vo.stTitle }" placeholder="내용 입력"></th>
-					<th><input type="text" name="stMessage" id="stMessage" value="${ vo.stMessage }" placeholder="내용 입력"></th>
-					<th><input type="date" name="stDate" id="stDate" value="${ vo.stDate }" /></th>
-					<th><input type="text" name="stWriter" id="stWriter" placeholder="이름 입력" value="${ vo.stWriter }" /></th>
+					<th>
+						<input type="text" name="stTitle" id="stTitle" value="${ vo.stTitle }" placeholder="내용 입력">
+					</th>
+					<th>
+						<a href="detailStudentProposal.do?stNum=${vo.stNum}">
+							<input type="text" name="stMessage" id="stMessage" value="${ vo.stMessage }" placeholder="내용 입력">
+						</a>
+					</th>
+					<th>
+						<input type="date" name="stDate" id="stDate" value="${ vo.stDate }" />
+					</th>
+					<th>
+						<input type="text" name="stWriter" id="stWriter" placeholder="이름 입력" value="${ vo.stWriter }" />
+					</th>
 					
 					<th><select name="stCategoly" id="stCategoly" class="st_form" value="${ vo.stCategoly }">
 							<option value="${ vo.stCategoly }">${ vo.stCategoly }</option>
-							<option value="수업">수업</option>
-							<option value="시설">시설</option>
-							<option value="동아리">동아리</option>
-							<option value="진로">진로</option>
-					</select></th>
+						</select>
+					</th>
+					
+					<th><select name="stHit" id="stHit" class="st_form" value="${ vo.stHit }">
+							<option value="${ vo.stHit }">${ vo.stHit }</option>
+						</select>
+					</th>
 					
 					<th><input type="button" value="삭제" onclick="remove_item(${ vo.stNum })" /></th>
 					<th><input type="button" value="수정" onclick="modify()" /></th> 

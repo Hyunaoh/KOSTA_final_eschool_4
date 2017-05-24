@@ -11,9 +11,9 @@
 		SELECT * FROM STUDENTPROPOSAL
 	</select>
 	
-	<!-- 특정 컬럼의 모든 데이터 받아오기 -->
-	<select id="getStudentProposal" parameterType="String" resultType="com.kosta.th147_4group.vo.StudentProposalVO">
-		SELECT * FROM STUDENTPROPOSAL WHERE stGrade=#{stGrade} 
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailStudentProposal" parameterType="int" resultType="com.kosta.th147_4group.vo.StudentProposalVO">
+		SELECT * FROM STUDENTPROPOSAL WHERE stNum=#{stNum} 
 	</select>
 	
 	<!-- 특정 컬럼 삭제하기 -->
@@ -21,6 +21,10 @@
 		DELETE STUDENTPROPOSAL WHERE stNum=#{stNum}
 	</delete>
 
+	<!-- 특정 컬럼 수정하기 -->
+	<update id="">
+		
+	</update>
 	<!-- 페이지 넘버 받아오기 -->
 	<select id="getNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.StudentProposalVO" >
 		SELECT st.rownum as stNum, st.stGrade as stGrade, st.stSchoolClass as stSchoolClass, st.stTitle as stTitle,
@@ -37,18 +41,10 @@
 	</select>
 	
 	<!-- 글 등록 -->
-	<insert id="insert">
-     <!-- int insert( Notice n ) 
-        INSERT INTO TNOTICES(SEQ, TITLE, CONTENT, WRITER, REGDATE, HIT, FILESRC , FILESRC2)
-        VALUES( (SELECT MAX(TO_NUMBER(SEQ))+1 FROM TNOTICES), :title, :content, :writer, SYSDATE, 0, :fileSrc , :fileSrc2)
+	<insert id="insertStudentProposal" parameterType="com.kosta.th147_4group.vo.StudentProposalVO" >
      
-     
-     -->
-      <selectKey order="BEFORE" keyProperty="seq" resultType="String">
-       SELECT NVL(MAX(TO_NUMBER(SEQ)),0)+1 FROM NOTICES
-      </selectKey>
-      INSERT INTO NOTICES(SEQ, TITLE, CONTENT, WRITER, REGDATE, HIT, FILESRC , FILESRC2)
-      VALUES( #{seq}, #{title}, #{content}, #{writer}, SYSDATE, 0, #{fileSrc ,jdbcType=VARCHAR} , #{fileSrc2 ,jdbcType=VARCHAR})
+      INSERT INTO STUDENTPROPOSAL(stGrade, stSchoolClass, stTitle, stMessage, stWriter, stCategoly, stHit)
+      VALUES( #{stGrade}, #{stSchoolClass}, #{stTitle}, #{stMessage}, #{stWriter}, #{stCategoly}, 0)
      </insert>
 	
 	

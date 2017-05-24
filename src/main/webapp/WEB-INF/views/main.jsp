@@ -191,7 +191,7 @@ $(document).ready(function () {
 		<ul id="loginmenu" class="block_hlist">
 													<!-- Spring 을 통한 login 과 logout 처리 -->
 									
-													<li><a href="${pageContext.request.contextPath}/main.do">HOME</a></li>
+													<li><a href="${pageContext.request.contextPath}/home.do">HOME</a></li>
 										
 													
 													<se:authorize ifNotGranted="ROLE_USER">

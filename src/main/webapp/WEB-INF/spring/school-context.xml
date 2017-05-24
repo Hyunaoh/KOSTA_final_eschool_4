@@ -34,9 +34,10 @@
 	</bean>
 	
 	<!-- Mapper 스캔 -->
+<!-- 	
 	<bean id="sqlMap" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.kosta.th147_4group.mapper"/>
-	</bean>
+	</bean> -->
 
 	<!-- 컨트롤러 설정 -->
 <!-- 

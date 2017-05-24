@@ -14,7 +14,8 @@
 		<a href="loginform.do">로그인 </a><br>
 		
 		<sc:authorize ifAnyGranted="Role_Student">
-		<a href="student/test.do">학생 로그인함 </a>
+		<a href="student/test.do">학생 로그인함 </a><br>
+<a href="${pageContext.request.contextPath}/insertStudentProposalForm.do">학생건의사항 글쓰기</a>
 		</sc:authorize>
 		
 		<sc:authorize ifAnyGranted="Role_Teacher">
@@ -23,6 +24,7 @@
 		
 		<sc:authorize ifAnyGranted="Role_Parent">
 		<a href="student/test.do">학부모 로그인함 </a>
+		
 		</sc:authorize>
 				
 		<sc:authorize ifAnyGranted="Role_Admin">
@@ -49,7 +51,7 @@
 				 
 					<!-- 2단계 Spring tablib  -->
 						<se:authorize ifNotGranted="Role_Student">
-							<li><a href="${pageContext.request.contextPath}/login/login.do">로그인</a></li>
+							<li><a href="${pageContext.request.contextPath}/login.do">로그인</a></li>
 						</se:authorize>
 						
 						<se:authentication property="name" var="LoingUser" />
@@ -60,7 +62,7 @@
 						</se:authorize>
 						
 						
-			<li><a href="${pageContext.request.contextPath}/login/join.do">회원가입</a></li>
+			<li><a href="${pageContext.request.contextPath}/join.do">회원가입</a></li>
 		</ul>
 	</div>
 

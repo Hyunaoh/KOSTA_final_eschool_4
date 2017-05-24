@@ -15,5 +15,11 @@ public class IndexController {
 		return "login/loginMain";
 	}
 	
+	@RequestMapping("/main.do")
+	public String main()
+	{
+		System.out.println("main.do 실행");
+		return "/main";
+	}
 	
 }

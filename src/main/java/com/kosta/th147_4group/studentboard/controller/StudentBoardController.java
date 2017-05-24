@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.kosta.th147_4group.studentboard.dao.StudentBoardDao;
+import com.kosta.th147_4group.vo.MemberVO;
 import com.kosta.th147_4group.vo.StudentProposalVO;
 
 @Controller
@@ -27,13 +26,13 @@ public class StudentBoardController {
 		this.dao = dao;
 	}
 	
-		//StudentProposal*************** 건의사항 게시판 실시
-	@RequestMapping(value = "/studentProposal.do")
-	public String studentBoard(ModelAndView mav, StudentProposalVO vo) throws SQLException{ 
+	//StudentProposal*************** 건의사항 게시판 실시
+	/*@RequestMapping(value = "/studentProposal.do")
+	public String studentProposal(ModelAndView mav, StudentProposalVO vo) throws SQLException, ClassNotFoundException{ 
 		StudentProposalVO svo;
 		List<StudentProposalVO> svoList = new ArrayList<StudentProposalVO>();
 		
-		svo = dao.getStudentProposal(vo.getStGrade());
+		svo = dao.getStudentProposal(vo.getStNum());
 		svoList = dao.getAllStudentProposal();
 		int count = svoList.size();
 		
@@ -66,11 +65,11 @@ public class StudentBoardController {
 		
 		
 		return "studentboard/studentboard";
-	}
+	}*/
 	
-	//studentProposalForm*************** 건의사항 게시판으로 이동
+	//studentProposalForm*************** 실질적으로 실행되는 건의사항 게시판
 	@RequestMapping(value = "/studentProposalForm.do")
-	public String studentBoardForm(Model model, StudentProposalVO vo) throws SQLException{
+	public String studentProposalForm(Model model, StudentProposalVO vo) throws SQLException, ClassNotFoundException{
 		
 		StudentProposalVO svo = null;
 		List<StudentProposalVO> svoList = new ArrayList<StudentProposalVO>();
@@ -85,6 +84,8 @@ public class StudentBoardController {
 		// 페이지당 원하는 게시물 개수
 		int BLOCK = 5;
 		
+		
+		//****************** 페이지 처리하는 것들
 		List<Integer> countList = new ArrayList<Integer>();
 		
 		Map<String, Integer> parameterMap = new HashMap<String, Integer>();
@@ -154,4 +155,61 @@ public class StudentBoardController {
 
 	}
 
+	//글 등록 Form으로 이동
+	@RequestMapping("/insertStudentProposalForm.do")
+	public String insertStudentProposal(){
+			
+		return "studentboard/insertStudentProposalForm";
+			
+	}
+	
+	//글 등록**********************
+	@RequestMapping("/insertStudentProposal.do")
+	public String insertStudentProposal(Model model, StudentProposalVO vo)
+	throws ClassNotFoundException, SQLException{
+		MemberVO mvo = null;
+		
+		dao.insertStudentProposal(vo);
+		
+		model.addAttribute("mvo", mvo);
+		return "main";
+	}
+	
+	//상세 글 Form으로 이동
+	@RequestMapping("/detailStudentProposalForm.do")
+	public String detailStudentProposal(){
+			
+		return "studentboard/detailStudentProposalForm";
+			
+	}
+	
+	//상세 글 출력**********************
+	@RequestMapping("/detailStudentProposal.do")
+	public String detailStudentProposal(Model model, StudentProposalVO vo)
+	throws ClassNotFoundException, SQLException{
+		StudentProposalVO vo2 = dao.detailStudentProposal(vo.getStNum());
+		
+		model.addAttribute("stNum", vo2);
+		return "studentboard/detailStudentProposalForm";
+	}
+	
+	/*//글 수정**********************
+		@RequestMapping("/updateStudentProposal.do")
+		public String updateStudentProposal(int stNum)
+		throws ClassNotFoundException, SQLException{
+			
+			dao.insertStudentProposal(vo);
+			
+			return "main";
+		}
+		
+	//글 삭제**********************
+	@RequestMapping("/insertStudentProposal.do")
+	public String deleteStudentProposal(int stNum)
+	throws ClassNotFoundException, SQLException{
+			
+		dao.insertStudentProposal(vo);
+			
+		return "main";
+	}*/
 }

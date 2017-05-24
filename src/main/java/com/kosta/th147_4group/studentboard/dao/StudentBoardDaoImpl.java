@@ -18,24 +18,37 @@ public class StudentBoardDaoImpl implements StudentBoardDao {
 	
 	//StudentProposal 건의사항
 	@Override
-	public StudentProposalVO getStudentProposal(String stGrade) throws SQLException {
-		return sqlSession.selectOne("sqlSession.getStudentProposal", (String) stGrade);
+	public StudentProposalVO detailStudentProposal(int stNum) throws SQLException {
+		return sqlSession.selectOne("sqlSession.detailStudentProposal", (int) stNum);
 	}
-
+	
 	@Override
 	public List<StudentProposalVO> getAllStudentProposal() throws SQLException {
 		return sqlSession.selectList("sqlSession.getAllStudentProposal");
 	}
-
+	//글 삭제
 	@Override
 	public void deleteStudentProposal(int stNum) throws SQLException {
 		int delete = sqlSession.delete("sqlSession.deleteStudentProposalByNum", (int)stNum);
 		System.out.println("StudentProposal DB 컬럼 삭제여부 : " + delete);
 	}
-
+	//페이징 처리
 	@Override
 	public List<StudentProposalVO> getNowPage(Map mapNum) throws SQLException {
 		return sqlSession.selectList("sqlSession.getNowPage", mapNum); 
 	}
+	//글 등록
+	@Override
+	public void insertStudentProposal(StudentProposalVO studentProposalVO) throws ClassNotFoundException, SQLException {
+		sqlSession.insert("sqlSession.insertStudentProposal", studentProposalVO);
+		
+	}
+	//글 수정
+	@Override
+	public void updateStudentProposal(int stNum) throws ClassNotFoundException, SQLException {
+		int update = sqlSession.update("sqlSession.insertStudentProposal", (int)stNum);
+		
+	}
+
 
 }
