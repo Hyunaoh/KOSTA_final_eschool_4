@@ -175,23 +175,28 @@ public class StudentBoardController {
 		return "main";
 	}
 	
-	//상세 글 Form으로 이동
-	@RequestMapping("/detailStudentProposalForm.do")
-	public String detailStudentProposal(){
-			
-		return "studentboard/detailStudentProposalForm";
-			
-	}
-	
 	//상세 글 출력**********************
 	@RequestMapping("/detailStudentProposal.do")
 	public String detailStudentProposal(Model model, StudentProposalVO vo)
 	throws ClassNotFoundException, SQLException{
 		StudentProposalVO vo2 = dao.detailStudentProposal(vo.getStNum());
 		
+		
 		model.addAttribute("stNum", vo2);
+		
 		return "studentboard/detailStudentProposalForm";
 	}
+	
+	//상세 글 삭제
+		@RequestMapping("/deleteStudentProposal.do")
+		public String deleteStudentProposal(Model model, StudentProposalVO vo) 
+				throws ClassNotFoundException, SQLException{
+			dao.deleteStudentProposal(vo.getStNum());
+			
+			model.addAttribute("del", dao);
+			return "studentboard/studentProposalForm";
+				
+		}
 	
 	/*//글 수정**********************
 		@RequestMapping("/updateStudentProposal.do")

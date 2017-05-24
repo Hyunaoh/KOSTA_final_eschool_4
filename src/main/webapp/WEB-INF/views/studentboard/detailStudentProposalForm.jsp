@@ -107,7 +107,7 @@
 			
 				<!-- 목록으로 가는 칸 -->
 				<button onclick="window.location='BoardListAction.bo'"> 목 록  </button>
-				
+				<a class="btn-del button" href="deleteStudentProposal.do?stNum=${stNum.stNum}">삭제</a>
 		</div>	
 
 		<!-- </form> -->

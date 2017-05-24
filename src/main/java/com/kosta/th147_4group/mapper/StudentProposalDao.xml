@@ -18,12 +18,11 @@
 	
 	<!-- 특정 컬럼 삭제하기 -->
 	<delete id="deleteStudentProposal" parameterType="int">
-		DELETE STUDENTPROPOSAL WHERE stNum=#{stNum}
+		DELETE FROM STUDENTPROPOSAL WHERE stNum=#{stNum}
 	</delete>
 
 	<!-- 특정 컬럼 수정하기 -->
 	<update id="">
-		
 	</update>
 	<!-- 페이지 넘버 받아오기 -->
 	<select id="getNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.StudentProposalVO" >

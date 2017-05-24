@@ -29,8 +29,8 @@ public class StudentBoardDaoImpl implements StudentBoardDao {
 	//글 삭제
 	@Override
 	public void deleteStudentProposal(int stNum) throws SQLException {
-		int delete = sqlSession.delete("sqlSession.deleteStudentProposalByNum", (int)stNum);
-		System.out.println("StudentProposal DB 컬럼 삭제여부 : " + delete);
+		sqlSession.delete("sqlSession.deleteStudentProposal", (int) stNum);
+		return ;
 	}
 	//페이징 처리
 	@Override
