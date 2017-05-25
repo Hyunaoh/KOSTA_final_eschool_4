@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="com.kosta.th147_4group.studentboard.dao.FamilyViolenceDao">
+
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllFamilyViolence" resultType="java.util.List">
+		SELECT * FROM FAMILYVIOLENCE
+	</select>
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailFamilyViolence" parameterType="int" resultType="com.kosta.th147_4group.vo.FamilyViolenceVO">
+		SELECT * FROM FAMILYVIOLENCE WHERE fmNum=#{fmNum} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteFamilyViolence" parameterType="int">
+		DELETE FROM FAMILYVIOLENCE WHERE fmNum=#{fmNum}
+	</delete>
+
+	<!-- 특정 컬럼 수정하기 -->
+	<update id="updateFamilyViolence" parameterType="java.util.Map"> 
+		UPDATE FAMILYVIOLENCE SET fmTitle=#{fmTitle}, fmMessage=#{fmMessage}, fmCategoly=#{fmCategoly} WHERE fmNum = #{fmNum} 
+	</update>
+	
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="FamilyViolenceGetNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.FamilyViolenceVO" >
+		SELECT fm.rownum as fmNum, fm.fmGrade as fmGrade, fm.fmSchoolClass as fmSchoolClass, fm.fmTitle as fmTitle,
+        fm.fmMessage as fmMessage, fm.fmDate as fmDate, fm.fmWriter as fmWriter, fm.fmCategoly as fmCategoly
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, FAMILYVIOLENCE.*
+		FROM
+		FAMILYVIOLENCE, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) fm
+		WHERE st.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertFamilyViolence" parameterType="com.kosta.th147_4group.vo.FamilyViolenceVO" >
+     
+      INSERT INTO FAMILYVIOLENCE(fmGrade, fmSchoolClass, fmTitle, fmMessage, fmWriter, fmCategoly)
+      VALUES( #{fmGrade}, #{fmSchoolClass}, #{fmTitle}, #{fmMessage}, #{fmWriter}, #{fmCategoly})
+     </insert>
+	
+	
+
+</mapper> 

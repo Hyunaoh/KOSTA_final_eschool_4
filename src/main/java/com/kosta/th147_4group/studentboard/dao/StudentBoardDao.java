@@ -19,7 +19,7 @@ public interface StudentBoardDao {
 	//게시물 삭제
 	public void deleteStudentProposal(int stNum) throws ClassNotFoundException, SQLException;
 	//게시물 페이징 처리
-	public List<StudentProposalVO> getNowPage(Map mapNum) throws ClassNotFoundException, SQLException;
+	public List<StudentProposalVO> StudentBoardGetNowPage(Map mapNum) throws ClassNotFoundException, SQLException;
 	//게시물 입력
 	public void insertStudentProposal(StudentProposalVO studentProposalVO) throws ClassNotFoundException, SQLException;
 	//게시물 수정

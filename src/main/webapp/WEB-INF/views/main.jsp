@@ -198,7 +198,9 @@ $(document).ready(function () {
 														<li><a href="${pageContext.request.contextPath}/loginform.do">로그인</a></li>
 														<li><a href="${pageContext.request.contextPath}/joinform.do">회원가입</a></li>
 														<li><a href="${pageContext.request.contextPath}/studentProposalForm.do">출력 학생게시판</a></li>
-														<li><a href="${pageContext.request.contextPath}/studentProposal.do">학생게시판</a></li>
+														<%-- <li><a href="${pageContext.request.contextPath}/studentProposal.do">학생게시판</a></li> --%>
+														<li><a href="${pageContext.request.contextPath}/FamilyViolenceForm.do">가정폭력 게시판</a></li>
+														
 													</se:authorize>
 										
 													<se:authentication property="name" var="LoingUser" />

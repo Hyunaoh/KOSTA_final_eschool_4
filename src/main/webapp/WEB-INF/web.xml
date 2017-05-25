@@ -11,8 +11,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		/WEB-INF/spring/school-context.xml
-		<!-- 1) security-context.xml을 완성하면 밑에 주석을 없애세요~(to.기동) -->
+		/WEB-INF/spring/school-context.xml 
 		/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>

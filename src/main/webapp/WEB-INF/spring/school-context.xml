@@ -34,20 +34,20 @@
 	</bean>
 	
 	<!-- Mapper 스캔 -->
-<!-- 	
-	<bean id="sqlMap" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	
+	<!-- <bean id="sqlMap" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.kosta.th147_4group.mapper"/>
 	</bean> -->
 
 	<!-- 컨트롤러 설정 -->
-<!-- 
+
 	<bean id="homeController" class="com.kosta.th147_4group.HomeController" />
 
 	<bean id="careerController" class="com.kosta.th147_4group.career.controller.CareerController" />
 
 	<bean id="curriculumController" class="com.kosta.th147_4group.curriculum.controller.CurriculumController" />
 
-	login controller 설정
+	<!-- login controller 설정 -->
 	<bean id="loginController" class="com.kosta.th147_4group.login.controller.LoginController" />
 	<bean id="IndexController" class="com.kosta.th147_4group.login.controller.IndexController" />
 	
@@ -60,5 +60,8 @@
 	<bean id="schoolInfoController" class="com.kosta.th147_4group.schoolinfo.controller.SchoolInfoController" />
 
 	<bean id="studentBoardController" class="com.kosta.th147_4group.studentboard.controller.StudentBoardController" />
- -->
+	<bean id="familyViolenceController" class="com.kosta.th147_4group.studentboard.controller.FamilyViolenceController" />
+	<bean id="schoolViolenceController" class="com.kosta.th147_4group.studentboard.controller.SchoolViolenceController" />
+	
+	
 </beans>

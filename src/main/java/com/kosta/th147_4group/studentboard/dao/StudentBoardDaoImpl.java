@@ -1,5 +1,6 @@
 package com.kosta.th147_4group.studentboard.dao;
 
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,8 @@ public class StudentBoardDaoImpl implements StudentBoardDao {
 	}
 	//페이징 처리
 	@Override
-	public List<StudentProposalVO> getNowPage(Map mapNum) throws SQLException {
-		return sqlSession.selectList("sqlSession.getNowPage", mapNum); 
+	public List<StudentProposalVO> StudentBoardGetNowPage(Map mapNum) throws SQLException {
+		return sqlSession.selectList("sqlSession.StudentBoardGetNowPage", mapNum); 
 	}
 	//글 등록
 	@Override
@@ -46,7 +47,7 @@ public class StudentBoardDaoImpl implements StudentBoardDao {
 	//글 수정
 	@Override
 	public void updateStudentProposal(int stNum) throws ClassNotFoundException, SQLException {
-		int update = sqlSession.update("sqlSession.insertStudentProposal", (int)stNum);
+		int update = sqlSession.update("sqlSession.updateStudentProposal", (int)stNum);
 		
 	}
 

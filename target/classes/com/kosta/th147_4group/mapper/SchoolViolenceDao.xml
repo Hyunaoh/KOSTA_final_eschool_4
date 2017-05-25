@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="com.kosta.th147_4group.studentboard.dao.SchoolViolenceDao">
+
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllSchoolViolence" resultType="java.util.List">
+		SELECT * FROM FAMILYVIOLENCE
+	</select>
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailSchoolViolence" parameterType="int" resultType="com.kosta.th147_4group.vo.SchoolViolenceVO">
+		SELECT * FROM FAMILYVIOLENCE WHERE svNum=#{svNum} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteSchoolViolence" parameterType="int">
+		DELETE FROM FAMILYVIOLENCE WHERE svNum=#{svNum}
+	</delete>
+
+	<!-- 특정 컬럼 수정하기 -->
+	<update id="updateSchoolViolence" parameterType="java.util.Map"> 
+		UPDATE SCHOOLVIOLENCE SET svTitle=#{svTitle}, fmMessage=#{fmMessage}, fmCategoly=#{fmCategoly} WHERE fmNum = #{svNum} 
+	</update>
+	
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="SchoolViolenceGetNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.SchoolViolenceVO" >
+		SELECT sv.rownum as svNum, sv.svGrade as svGrade, sv.svSchoolClass as svSchoolClass, sv.svTitle as svTitle,
+        sv.svMessage as svMessage, sv.svDate as svDate, sv.svWriter as svWriter, sv.svCategoly as svCategoly
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, FAMILYVIOLENCE.*
+		FROM
+		FAMILYVIOLENCE, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) fm
+		WHERE st.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertSchoolViolence" parameterType="com.kosta.th147_4group.vo.SchoolViolenceVO" >
+     
+      INSERT INTO FAMILYVIOLENCE(svGrade, svSchoolClass, svTitle, svMessage, svWriter, svCategoly)
+      VALUES( #{svGrade}, #{svSchoolClass}, #{svTitle}, #{svMessage}, #{svWriter}, #{svCategoly})
+     </insert>
+	
+	
+
+</mapper> 

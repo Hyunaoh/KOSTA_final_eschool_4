@@ -10,35 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.kosta.th147_4group.studentboard.dao.StudentBoardDao;
+
+import com.kosta.th147_4group.studentboard.dao.FamilyViolenceDao;
+import com.kosta.th147_4group.vo.FamilyViolenceVO;
 import com.kosta.th147_4group.vo.MemberVO;
-import com.kosta.th147_4group.vo.StudentProposalVO;
 
 @Controller
-//@RequestMapping(value = "/studentboard")
-public class StudentBoardController {
+//@RequestMapping("/studentboard")
+public class FamilyViolenceController {
 	
 	@Autowired
-	private StudentBoardDao dao;
+	private FamilyViolenceDao dao;
 	
 	@Autowired
-	public void setDao(StudentBoardDao dao){
+	public void setDao(FamilyViolenceDao dao){
 		this.dao = dao;
 	}
 	
 	//studentProposalForm*************** 실질적으로 실행되는 건의사항 게시판
-	@RequestMapping(value = "/studentProposalForm.do")
-	public String studentProposalForm(Model model, StudentProposalVO vo) throws SQLException, ClassNotFoundException{
+	@RequestMapping(value = "/familyViolenceForm.do")
+	public String studentProposalForm(Model model, FamilyViolenceVO vo) throws SQLException, ClassNotFoundException{
 		
-		StudentProposalVO svo = null;
-		List<StudentProposalVO> svoList = new ArrayList<StudentProposalVO>();
+		FamilyViolenceVO fvo = null;
+		List<FamilyViolenceVO> fvoList = new ArrayList<FamilyViolenceVO>();
 		
 		// 특정 컬럼명을 받아온다.
 		//svo = dao.getStudentProposal(vo.getStGrade());
 		// 모든 컬럼을 받아온다.
-		svoList = dao.getAllStudentProposal();
+		fvoList = dao.getAllFamilyViolence();
 		// 모든 컬럼의 크기를 알아온다.
-		int count = svoList.size();
+		int count = fvoList.size();
 		
 		// 페이지당 원하는 게시물 개수
 		int BLOCK = 5;
@@ -62,13 +63,13 @@ public class StudentBoardController {
 			if(count < i+BLOCK){
 				parameterMap.put("num2", count);
 				System.out.println("parameter3 : " + count);
-				nowPage.put(i, dao.StudentBoardGetNowPage(parameterMap));
+				nowPage.put(i, dao.FamilyViolenceGetNowPage(parameterMap));
 				System.out.println(i);
 				//nowPageList.put(i, nowPage);
 			} else{
 				parameterMap.put("num2", i*BLOCK);
 				System.out.println("parameter2 : " + i*BLOCK);
-				nowPage.put(i, dao.StudentBoardGetNowPage(parameterMap));					
+				nowPage.put(i, dao.FamilyViolenceGetNowPage(parameterMap));					
 				System.out.println(i);
 				//nowPageList.put(i, nowPage);
 			}
@@ -86,55 +87,59 @@ public class StudentBoardController {
 		}
 		// 게시물 쪽수 (1~5값)을 view로 보낸뒤,
 		model.addAttribute("pageList", countList);
-
-
-		model.addAttribute("svo", svo);
-		model.addAttribute("svoList", svoList);
+					
+		model.addAttribute("fvo", fvo);
+		model.addAttribute("fvoList", fvoList);
 		
-		return "studentboard/studentProposalForm";
+		return "studentboard/familyViolence/FamilyViolenceForm";
 		
 	}
+	
+//	@RequestMapping("/sign.do")
+//	public void sign() {
+//
+//	}
 
 	//글 등록 Form으로 이동
-	@RequestMapping("/insertStudentProposalForm.do")
+	@RequestMapping("/insertFamilyViolenceForm.do")
 	public String insertStudentProposal(){
 			
-		return "studentboard/studentProposal/insertStudentProposalForm";
+		return "studentboard/familyViolence/FamilyViolenceForm";
 			
 	}
 	
 	//글 등록**********************
-	@RequestMapping("/insertStudentProposal.do")
-	public String insertStudentProposal(Model model, StudentProposalVO vo)
+	@RequestMapping("/insertFamilyViolence.do")
+	public String insertStudentProposal(Model model, FamilyViolenceVO vo)
 	throws ClassNotFoundException, SQLException{
-		//MemberVO mvo = null;
+		MemberVO mvo = null;
 		
-		dao.insertStudentProposal(vo);
+		dao.insertFamilyViolence(vo);
 		
-/*		model.addAttribute("mvo", mvo);*/
-		return "studentboard/studentProposal/insertStudentProposalForm";
+		model.addAttribute("mvo", mvo);
+		return "main";
 	}
 	
 	//상세 글 출력**********************
-	@RequestMapping("/detailStudentProposal.do")
-	public String detailStudentProposal(Model model, StudentProposalVO vo)
+	@RequestMapping("/detailFamilyViolence.do")
+	public String detailStudentProposal(Model model, FamilyViolenceVO vo)
 	throws ClassNotFoundException, SQLException{
-		StudentProposalVO vo2 = dao.detailStudentProposal(vo.getStNum());
+		FamilyViolenceVO vo2 = dao.detailFamilyViolence(vo.getFmNum());
 		
 		
-		model.addAttribute("stNum", vo2);
+		model.addAttribute("fmNum", vo2);
 		
-		return "studentboard/studentProposal/detailStudentProposalForm";
+		return "studentboard/familyViolence/detailFamilyViolenceForm";
 	}
 	
 	//상세 글 삭제
-		@RequestMapping("/deleteStudentProposal.do")
-		public String deleteStudentProposal(Model model, StudentProposalVO vo) 
+		@RequestMapping("/deleteFamilyViolence.do")
+		public String deleteFamilyViolence(Model model, FamilyViolenceVO vo) 
 				throws ClassNotFoundException, SQLException{
-			dao.deleteStudentProposal(vo.getStNum());
+			dao.deleteFamilyViolence(vo.getFmNum());
 			
 			model.addAttribute("del", dao);
-			return "studentboard/studentProposal/studentProposalForm";
+			return "studentboard/familyViolence/FamilyViolenceForm";
 				
 		}
 	

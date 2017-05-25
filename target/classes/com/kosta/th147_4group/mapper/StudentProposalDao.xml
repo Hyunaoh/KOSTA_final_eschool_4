@@ -3,11 +3,11 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
-<mapper namespace="sqlSession">
+<mapper namespace="com.kosta.th147_4group.studentboard.dao.StudentBoardDao">
 
 
 	<!-- 건의사항 모든 데이터 받아오기 -->
-	<select id="getAllStudentProposal" resultType="com.kosta.th147_4group.vo.StudentProposalVO">
+	<select id="getAllStudentProposal" resultType="java.util.List">
 		SELECT * FROM STUDENTPROPOSAL
 	</select>
 	
@@ -22,10 +22,11 @@
 	</delete>
 
 	<!-- 특정 컬럼 수정하기 -->
-	<update id="">
+	<update id="updateStudentProposal" parameterType="java.util.Map"> 
+		UPDATE STUDENTPROPOSAL SET stTitle=#{stTitle}, stMessage=#{stMessage}, stCategoly=#{stCategoly} WHERE stNum = #{stNum} 
 	</update>
 	<!-- 페이지 넘버 받아오기 -->
-	<select id="getNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.StudentProposalVO" >
+	<select id="SchoolViolenceGetNowPage" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.StudentProposalVO" >
 		SELECT st.rownum as stNum, st.stGrade as stGrade, st.stSchoolClass as stSchoolClass, st.stTitle as stTitle,
         st.stMessage as stMessage, st.stDate as stDate, st.stWriter as stWriter, st.stCategoly as stCategoly, st.stHit as stHit 
 		FROM 
