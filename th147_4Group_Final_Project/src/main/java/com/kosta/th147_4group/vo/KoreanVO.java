@@ -11,22 +11,10 @@ public class KoreanVO {
 	private String koName; // 교사명
 	private String koCategoly; // 소분류
 	private String koBungi; // 분기(1/2/3/4)
+	private int stFlag;	// 삭제여부 flag (1 : hidden상태 / 0 : 보여지는 상태)
 
 	public KoreanVO() {
 
-	}
-
-	public KoreanVO(int rownum, String koRnum, String koGrade, String koClass, String koMessage, String koDate, String koName, String koCategoly, String koBungi) {
-
-		this.rownum = rownum;
-		this.koRnum = koRnum;
-		this.koGrade = koGrade;
-		this.koClass = koClass;
-		this.koMessage = koMessage;
-		this.koDate = koDate;
-		this.koName = koName;
-		this.koCategoly = koCategoly;
-		this.koBungi = koBungi;
 	}
 
 	public int getRownum() {
@@ -101,10 +89,19 @@ public class KoreanVO {
 		this.koBungi = koBungi;
 	}
 
-	@Override
-	public String toString() {
-		return "KoreanVO [rownum=" + rownum + ", koRnum=" + koRnum + ", koGrade=" + koGrade + ", koClass=" + koClass + ", koMessage=" + koMessage + ", koDate=" + koDate + ", koName=" + koName
-				+ ", koCategoly=" + koCategoly + ", koBungi=" + koBungi + "]";
+	public int getStFlag() {
+		return stFlag;
 	}
 
+	public void setStFlag(int stFlag) {
+		this.stFlag = stFlag;
+	}
+
+	@Override
+	public String toString() {
+		return "KoreanVO [rownum=" + rownum + ", koRnum=" + koRnum + ", koGrade=" + koGrade + ", koClass=" + koClass
+				+ ", koMessage=" + koMessage + ", koDate=" + koDate + ", koName=" + koName + ", koCategoly="
+				+ koCategoly + ", koBungi=" + koBungi + ", stFlag=" + stFlag + "]";
+	}
+	
 }

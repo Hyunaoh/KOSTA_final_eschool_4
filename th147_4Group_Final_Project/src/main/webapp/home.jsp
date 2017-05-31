@@ -1,13 +1,26 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="se"%>
+
+<!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
-
+<jsp:include page="WEB-INF/views/home/head.jsp"></jsp:include>
 </head>
 <body>
-	<h1>Hello world!</h1>
+	
+	<!-- menu 부분 INCLUDE -->
+	<jsp:include page="WEB-INF/views/home/menu.jsp"></jsp:include>
 
-	<P>The time on the server is ${serverTime}.</P>
+	<!-- body 부분 INCLUDE -->
+	<jsp:include page="WEB-INF/views/home/body.jsp"></jsp:include>
+
+	<!-- footer 부분 INCLUDE -->
+	<jsp:include page="WEB-INF/views/home/footer.jsp"></jsp:include>
+
+	
+	<!-- /.container -->
+	<!-- script references -->
+
 </body>
 </html>

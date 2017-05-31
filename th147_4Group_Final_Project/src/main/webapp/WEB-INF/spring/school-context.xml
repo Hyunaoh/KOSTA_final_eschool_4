@@ -22,39 +22,41 @@
 		<property value="10485760" name="maxUploadSize" />
 	</bean>
 
-	<!-- Mybatis 설정 -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="driverManagerDataSource"></property>
-		<property name="mapperLocations" value="classpath*:com/kosta/th147_4group/mapper/*xml" />
+		<property name="mapperLocations" value="classpath*:mapper/*xml" />
 	</bean>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactoryBean" />
+	</bean> 
+	
+	<!-- ParentsBoard Mybatis 설정 -->
+   	<bean id="oradataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mariadb://reddezi.synology.me:3306/schooldb"></property>
+		<property name="username" value="maria"></property>
+		<property name="password" value="spring"></property>
+	</bean>
+    
+    <bean id="sqlSessionFactory11" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="oradataSource" />
+        <property name="mapperLocations" value="classpath:/mapper/parentboard/mybatis/BoardMapper.xml"/>
+        <property name="configLocation" value="classpath:/mapper/parentboard/mybatis/mybatis-config.xml" />
+    </bean>
+
+	<!-- mapper 검색 수동 설정  -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="mapper.parentboard.mybatis"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory11"></property>
 	</bean>
 	
-	<!-- Mapper 스캔 -->
-	<bean id="sqlMap" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- Mapper 스캔(기동님 ver) 
+		 일단 주석처리 해놓을께요. -->
+	
+<!-- 	<bean id="sqlMap" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.kosta.th147_4group.mapper"/>
-	</bean>
+	</bean> -->
 
-	<!-- 컨트롤러 설정 -->
 
-<!-- <bean id="homeController" class="com.kosta.th147_4group.HomeController" />
-
-	<bean id="careerController" class="com.kosta.th147_4group.career.controller.CareerController" />
-
-	<bean id="curriculumController" class="com.kosta.th147_4group.curriculum.controller.CurriculumController" />
-
-	<bean id="loginController" class="com.kosta.th147_4group.login.controller.LoginController" />
-
-	<bean id="messageController" class="com.kosta.th147_4group.message.controller.MessageController" />
-
-	<bean id="rollBookController" class="com.kosta.th147_4group.rollbook.controller.RollBookController" />
-
-	<bean id="parentBoardController" class="com.kosta.th147_4group.parentboard.controller.ParentBoardController" />
-
-	<bean id="schoolInfoController" class="com.kosta.th147_4group.schoolinfo.controller.SchoolInfoController" />
-
-	<bean id="studentBoardController" class="com.kosta.th147_4group.studentboard.controller.StudentBoardController" />
- -->
 </beans>

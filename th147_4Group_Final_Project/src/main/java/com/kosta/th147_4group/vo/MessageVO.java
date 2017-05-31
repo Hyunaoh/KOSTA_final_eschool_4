@@ -1,20 +1,16 @@
 package com.kosta.th147_4group.vo;
 
+import java.util.Date;
+
 public class MessageVO {
 
 	private String meSend;			// 보낸사람
 	private String meGet;			// 받은사람
 	private String meMessage;		// 메세지 내용
+	private Date meDate;
 
 	public MessageVO() {
 
-	}
-
-	public MessageVO(String meSend, String meGet, String meMessage) {
-
-		this.meSend = meSend;
-		this.meGet = meGet;
-		this.meMessage = meMessage;
 	}
 
 	public String getMeSend() {
@@ -41,11 +37,17 @@ public class MessageVO {
 		this.meMessage = meMessage;
 	}
 
+	public Date getMeDate() {
+		return meDate;
+	}
+
+	public void setMeDate(Date meDate) {
+		this.meDate = meDate;
+	}
+
 	@Override
 	public String toString() {
-		return "MessageVO [meSend=" + meSend + ", meGet=" + meGet + ", meMessage=" + meMessage + "]";
+		return "MessageVO [meSend=" + meSend + ", meGet=" + meGet + ", meMessage=" + meMessage + ", meDate=" + meDate + "]";
 	}
 	
-	
-
 }

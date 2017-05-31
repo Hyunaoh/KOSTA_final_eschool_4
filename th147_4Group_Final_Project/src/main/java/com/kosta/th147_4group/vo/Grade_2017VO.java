@@ -2,23 +2,15 @@ package com.kosta.th147_4group.vo;
 
 public class Grade_2017VO {
 
-	private String grName; // 이름
+	private String grName;  // 이름
 	private String grGrade; // 학년
 	private String grClass; // 반
-	private String grNo; // 학번
+	private String grNo; 	// 번호
+	private String grId;	// 학번 or 교번
 
 	public Grade_2017VO() {
 
 	}
-
-	public Grade_2017VO(String grName, String grGrade, String grClass, String grNo) {
-		this.grName = grName;
-		this.grGrade = grGrade;
-		this.grClass = grClass;
-		this.grNo = grNo;
-	}
-
-
 
 	public String getGrName() {
 		return grName;
@@ -52,10 +44,17 @@ public class Grade_2017VO {
 		this.grNo = grNo;
 	}
 
+	public String getGrId() {
+		return grId;
+	}
+
+	public void setGrId(String grId) {
+		this.grId = grId;
+	}
+
 	@Override
 	public String toString() {
-		return "Grade_2017VO [grName=" + grName + ", grGrade=" + grGrade + ", grClass=" + grClass + ", grNo=" + grNo
-				+ "]";
+		return "Grade_2017VO [grName=" + grName + ", grGrade=" + grGrade + ", grClass=" + grClass + ", grNo=" + grNo + ", grId=" + grId + "]";
 	}
 
 }

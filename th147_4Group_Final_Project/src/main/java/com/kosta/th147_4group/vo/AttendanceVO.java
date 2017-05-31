@@ -7,17 +7,16 @@ public class AttendanceVO {
 	private String atName;			// 출석부 이름
 	private String atAttendance;	// 등교 여부
 	private String atAttendance2;	// 하교 여부
-	private Timestamp atDate;		// 등교 날짜 (yyyy-MM-dd)
+	private String atDate;		// 등교 날짜 (yyyy-MM-dd)
+	private String atGrade;		//학년
+	private String atClass;		//반
+	private String atNum; 		//학번
+	private String atLevel;		//직급
+	private String atTeacher;  //담당교사
+	private String atFlag; 		//무쓸모구분
 	
 	public AttendanceVO(){
 		
-	}
-
-	public AttendanceVO(String atName, String atAttendance, String atAttendance2, Timestamp atDate) {
-		this.atName = atName;
-		this.atAttendance = atAttendance;
-		this.atAttendance2 = atAttendance2;
-		this.atDate = atDate;
 	}
 
 	public String getAtName() {
@@ -44,19 +43,68 @@ public class AttendanceVO {
 		this.atAttendance2 = atAttendance2;
 	}
 
-	public Timestamp getAtDate() {
+	public String getAtDate() {
 		return atDate;
 	}
 
-	public void setAtDate(Timestamp atDate) {
+	public void setAtDate(String atDate) {
 		this.atDate = atDate;
+	}
+
+	public String getAtGrade() {
+		return atGrade;
+	}
+
+	public void setAtGrade(String atGrade) {
+		this.atGrade = atGrade;
+	}
+
+	public String getAtClass() {
+		return atClass;
+	}
+
+	public void setAtClass(String atClass) {
+		this.atClass = atClass;
+	}
+
+	public String getAtNum() {
+		return atNum;
+	}
+
+	public void setAtNum(String atNum) {
+		this.atNum = atNum;
+	}
+
+	public String getAtLevel() {
+		return atLevel;
+	}
+
+	public void setAtLevel(String atLevel) {
+		this.atLevel = atLevel;
+	}
+
+	public String getAtTeacher() {
+		return atTeacher;
+	}
+
+	public void setAtTeacher(String atTeacher) {
+		this.atTeacher = atTeacher;
+	}
+
+	public String getAtFlag() {
+		return atFlag;
+	}
+
+	public void setAtFlag(String atFlag) {
+		this.atFlag = atFlag;
 	}
 
 	@Override
 	public String toString() {
 		return "AttendanceVO [atName=" + atName + ", atAttendance=" + atAttendance + ", atAttendance2=" + atAttendance2
-				+ ", atDate=" + atDate + "]";
+				+ ", atDate=" + atDate + ", atGrade=" + atGrade + ", atClass=" + atClass + ", atNum=" + atNum
+				+ ", atLevel=" + atLevel + ", atTeacher=" + atTeacher + ", atFlag=" + atFlag + "]";
 	}
 
-
+		
 }
