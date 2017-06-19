@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkboard">
+
+	<select id="selectBoard1Count" resultType="Integer">
+		SELECT COUNT(*)
+		FROM HOMEWORK
+		WHERE hwDeleteflag='N'
+	</select>
+
+	<select id="selectBoard1List" resultType="com.kosta.th147_4group.vo.HomeworkVO" parameterType="com.kosta.th147_4group.vo.PageVO">
+
+		SELECT hwNo, hwId,
+		hwTitle, hwWriter,
+		DATE_FORMAT(hwYmd,'%Y-%m-%d') hwYmd,hwHit
+		FROM HOMEWORK
+		WHERE hwDeleteflag='N'
+		ORDER BY hwNo DESC
+		LIMIT ${rowStart-1}, 10
+	</select>
+
+	<insert id="insertBoard1" parameterType="com.kosta.th147_4group.vo.HomeworkVO">
+		INSERT INTO
+		HOMEWORK(hwTitle, hwWriter, hwContent, hwYmd, hwHit, hwDeleteflag)
+		VALUES(#{hwTitle}, #{hwWriter}, #{hwContent}, NOW(), 0, 'N')
+	</insert>
+
+	<update id="updateBoard1" parameterType="com.kosta.th147_4group.vo.HomeworkVO">
+		UPDATE HOMEWORK
+		SET hwTitle=#{hwTitle},
+		hwWriter=#{hwWriter},
+		hwContent=#{hwContent}
+		WHERE hwDeleteflag='N'
+		AND hwNo=#{hwNo}
+	</update>
+	<select id="selectBoard1One" parameterType="String"
+		resultType="com.kosta.th147_4group.vo.HomeworkVO">
+		SELECT hwNo, hwTitle, hwWriter, hwContent,
+		DATE_FORMAT(hwYmd,'%Y-%m-%d') hwYmd
+		FROM HOMEWORK
+		WHERE hwDeleteflag='N'
+		AND hwNo=#{hwNo}
+	</select>
+
+	<!--조회수 -->
+	<update id="updateBoard1Read" parameterType="String">
+		UPDATE HOMEWORK
+		SET hwHit =hwHit+1
+		WHERE hwNo=#{hwNo}
+
+	</update>
+
+	<delete id="deleteBoard1One" parameterType="String">
+		UPDATE HOMEWORK
+		SET hwDeleteflag='Y'
+		WHERE hwNo=#{HwNo}
+	</delete>
+
+
+</mapper>

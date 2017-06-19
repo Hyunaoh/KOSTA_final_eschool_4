@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="sqlSession">
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllFamilyViolence" resultType="com.kosta.th147_4group.vo.FamilyViolenceVO">
+		SELECT fv.rownum as fvRownum, fv.fvNum as fvNum, fv.fvGrade as fvGrade, fv.fvSchoolClass as fvSchoolClass, fv.fvTitle as fvTitle,
+        fv.fvMessage as fvMessage, fv.fvDate as fvDate, fv.fvWriter as fvWriter, fv.fvCategoly as fvCategoly, fv.fvHit as fvHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, FAMILYVIOLENCE.*
+		FROM
+		FAMILYVIOLENCE, (SELECT @rownum :=0) n 
+		where fvFlag=0
+		ORDER BY rownum ASC 
+		) fv
+	</select>
+
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailFamilyViolence" parameterType="int" resultType="com.kosta.th147_4group.vo.FamilyViolenceVO">
+		SELECT @rownum := @rownum + 1 AS fvRownum, FAMILYVIOLENCE.*
+		FROM
+		FAMILYVIOLENCE, (SELECT @rownum :=0) n WHERE fvNum=#{fvNum} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteFamilyViolence" parameterType="int">
+		UPDATE FAMILYVIOLENCE SET fvFlag := 1 WHERE fvNum = #{fvNum}
+	</delete>
+
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPageFamilyViolence" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.FamilyViolenceVO" >
+		SELECT fv.rownum as fvRownum, fv.fvNum as fvNum, fv.fvGrade as fvGrade, fv.fvSchoolClass as fvSchoolClass, fv.fvTitle as fvTitle,
+        fv.fvMessage as fvMessage, fv.fvDate as fvDate, fv.fvWriter as fvWriter, fv.fvCategoly as fvCategoly, fv.fvHit as fvHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, FAMILYVIOLENCE.*
+		FROM
+		FAMILYVIOLENCE, (SELECT @rownum :=0) n
+		WHERE fvFlag=0 
+		ORDER BY rownum ASC
+		) fv
+		where fv.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertFamilyViolence" parameterType="com.kosta.th147_4group.vo.FamilyViolenceVO" >
+     
+      INSERT INTO FAMILYVIOLENCE(fvGrade, fvSchoolClass, fvTitle, fvMessage, fvWriter, fvCategoly, fvHit)
+      VALUES( #{fvGrade}, #{fvSchoolClass}, #{fvTitle}, #{fvMessage}, #{fvWriter}, #{fvCategoly}, 0)
+     </insert>
+     
+    <!-- 클릭할 때 조회수 올라가는 쿼리 -->
+    <update id="updateFamilyViolenceHit" parameterType="int">
+    	UPDATE FAMILYVIOLENCE SET fvHit := fvHit+1 WHERE fvNum = #{fvNum}
+    </update>
+	
+	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateFamilyViolence" parameterType="java.util.Map">
+    	UPDATE FAMILYVIOLENCE SET fvTitle=#{fvTitle}, fvMessage=#{fvMessage}, fvCategoly=#{fvCategoly} WHERE fvNum = #{fvNum}
+    </update>
+    
+</mapper>

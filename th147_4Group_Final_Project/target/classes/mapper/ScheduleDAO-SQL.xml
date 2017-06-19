@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScheduleSql">
+
+<!-- <select id="getPlan" resultType="java.util.List">
+SELECT (id,title,comment,start,end) FROM PLAN
+</select> -->
+
+<!-- <select id="schedule" resultType="com.kosta.th147_4group.vo.PlanVO" parameterType="java.util.List">
+SELECT*FROM PLAN
+</select>
+ -->
+<select id="scheduleList" resultType="com.kosta.th147_4group.vo.PlanVO" parameterType="com.kosta.th147_4group.vo.PlanVO">
+SELECT*FROM PLAN ORDER BY start ASC
+</select>
+<select id="scheduleDetail" resultType="com.kosta.th147_4group.vo.PlanVO" parameterType="java.util.HashMap">
+SELECT*FROM PLAN WHERE start=#{start} AND title=#{title}
+</select>
+<select id="controllerSchedule" resultType="com.kosta.th147_4group.vo.PlanVO" parameterType="com.kosta.th147_4group.vo.PlanVO">
+SELECT*FROM PLAN ORDER BY start ASC
+</select>
+
+<select id="controllerScheduleDetail" resultType="com.kosta.th147_4group.vo.PlanVO" parameterType="java.util.HashMap">
+SELECT*FROM PLAN WHERE start=#{start} AND title=#{title}
+</select>
+
+<insert id="insertSchedule" parameterType="com.kosta.th147_4group.vo.PlanVO">
+INSERT INTO PLAN(id, title, comment, start, end) VALUE(#{id}, #{title}, #{comment}, #{start}, #{end})
+</insert>
+
+<delete id="deleteSchedule" parameterType="com.kosta.th147_4group.vo.PlanVO">
+DELETE FROM PLAN WHERE title=#{title} AND start=#{start} AND seq=#{seq}
+</delete>
+
+<update id="updateSchedule" parameterType="com.kosta.th147_4group.vo.PlanVO">
+UPDATE PLAN SET id=#{id}, title=#{title}, comment=#{comment}, start=#{start}, end=#{end}, seq=#{seq} where id=#{id} and seq=#{seq}
+</update>
+</mapper>    

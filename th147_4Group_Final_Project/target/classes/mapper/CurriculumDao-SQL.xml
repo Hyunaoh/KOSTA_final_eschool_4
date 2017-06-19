@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="curriculumSession">
+	
+	<!-- 모든 데이터 받아오기 -->
+	<select id="getAllCurriculum" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		SELECT   
+		      c.rownum as rownum
+		    , c.cuRnum as cuRnum
+		    , c.cuGrade as cuGrade
+		    , c.cuClass as cuClass
+		    , c.cuTitle as cuTitle
+		    , c.cuMessage as cuMessage
+		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		FROM
+		(
+			SELECT @rownum := @rownum + 1 AS rownum, CURRICULUM.*
+			FROM
+			CURRICULUM, (SELECT @rownum :=0) n
+			where cuFlag=0
+			ORDER BY rownum ASC
+		) c
+	</select> 
+	
+	<!-- 학년, 반별로 모든 데이터 받아오기 -->
+	<select id="getCurriculumByInfo" parameterType="com.kosta.th147_4group.vo.CurriculumVO" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		 SELECT  @rownum := @rownum + 1 AS rownum
+  		    , c.cuRnum as cuRnum
+  		    , c.cuGrade as cuGrade
+  		    , c.cuClass as cuClass
+  		    , c.cuTitle as cuTitle
+  		    , c.cuMessage as cuMessage
+  		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		
+		FROM CURRICULUM c
+    	WHERE 	c.cuGrade = #{cuGrade} 
+        	AND c.cuClass = #{cuClass}
+	</select> 
+	
+	<!-- 검색하기 -->
+	<select id="getSearchCurriculum" parameterType="String" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		SELECT @rownum := @rownum + 1 AS cuRnum, 
+		CURRICULUM.*
+		FROM
+		CURRICULUM, (SELECT @rownum :=0) c WHERE cuGrade='%${value}%'
+		<if test="value != null">
+			AND ( cuClass LIKE '%${value}%' OR
+			cuMessage LIKE '%${value}%' OR
+			cuDate LIKE '%${value}%' OR
+			cuName LIKE '%${value}%' OR
+			cuCategory LIKE '%${value}%' OR
+			cuBungi LIKE '%${value}%')
+		</if>
+		
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteCurriculumByNum" parameterType="com.kosta.th147_4group.vo.CurriculumVO" >
+		DELETE FROM CURRICULUM WHERE cuRnum = #{cuRnum}
+	</delete> 
+	
+	<!-- 학년, 반별로 페이지 넘버 받아오기 -->
+	<select id="getNowPageCurriculum" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.CurriculumVO" >
+		SELECT 
+		  	  c.rownum as rownum
+		    , c.cuRnum as cuRnum
+		    , c.cuGrade as cuGrade
+		    , c.cuClass as cuClass
+		    , c.cuTitle as cuTitle
+		    , c.cuMessage as cuMessage
+		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		FROM
+		(
+			SELECT @rownum := @rownum + 1 AS rownum, CURRICULUM.*
+			FROM
+			CURRICULUM, (SELECT @rownum :=0) n 
+			<if test="cuGrade != null and cuClass != null">
+			WHERE cuGrade=#{cuGrade} AND cuClass=#{cuClass}
+			</if>
+			ORDER BY rownum ASC
+		) c
+		WHERE rownum BETWEEN #{num1} AND #{num2}
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 전체 페이지 넘버 받아오기 -->
+	<select id="getNowPageAllCurriculum" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.CurriculumVO" >
+		SELECT 
+		  	  c.rownum as rownum
+		    , c.cuRnum as cuRnum
+		    , c.cuGrade as cuGrade
+		    , c.cuClass as cuClass
+		    , c.cuTitle as cuTitle
+		    , c.cuMessage as cuMessage
+		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		FROM
+		(
+			SELECT @rownum := @rownum + 1 AS rownum, CURRICULUM.*
+			FROM
+			CURRICULUM, (SELECT @rownum :=0) n
+			ORDER BY rownum ASC
+		) c
+		WHERE rownum BETWEEN #{num1} AND #{num2}
+		ORDER BY rownum ASC
+	</select>
+
+	<!-- 글 등록 -->
+	<insert id="insertCurriculum" parameterType="com.kosta.th147_4group.vo.CurriculumVO">
+		INSERT INTO CURRICULUM(cuGrade, cuClass, cuTitle, cuMessage, cuDate, cuName, cuCategory, cuBungi, cuFlag, cuSubject, cuSign, cuSignComment1, cuSignComment2, cuSignDate, cuSignSendDate)
+		VALUES( #{cuGrade}, #{cuClass}, #{cuTitle}, #{cuMessage},  #{cuDate}, #{cuName},#{cuCategory}, #{cuBungi}, 0, #{cuSubject}, 3, null, null, null, null)
+	</insert>
+	
+	<!-- 결재요청 -->
+	<update id="updateSign" parameterType="com.kosta.th147_4group.vo.CurriculumVO">
+		UPDATE CURRICULUM 
+		SET   cuSign='0'
+			, cuSignSendDate = now() 
+		WHERE cuRnum=#{cuRnum}
+	</update>
+	
+	<!-- 결재승인/반려 -->
+	<update id="updateSignPrinciPal" parameterType="com.kosta.th147_4group.vo.CurriculumVO">
+		UPDATE CURRICULUM 
+		SET   cuSign2=#{cuSign2}
+			, cuSignDate2 = now() 
+		WHERE cuRnum=#{cuRnum}
+	</update>
+	
+	<!-- 결재승인/반려 -->
+	<update id="updateSignSubprin" parameterType="com.kosta.th147_4group.vo.CurriculumVO">
+		UPDATE CURRICULUM 
+		SET   cuSign=#{cuSign}
+			, cuSignDate = now() 
+			<if test="cuSign == 1">
+			, cuSign2 = 0
+			</if>
+		WHERE cuRnum=#{cuRnum}
+	</update>
+	
+ 	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateCurriculum" parameterType="com.kosta.th147_4group.vo.CurriculumVO">
+    	UPDATE CURRICULUM 
+    	SET cuGrade=#{cuGrade}
+    	  , cuClass=#{cuClass}
+    	  , cuMessage=#{cuMessage}
+    	  , cuDate=#{cuDate}
+    	  , cuName=#{cuName}
+    	  , cuCategory=#{cuCategory}
+    	  , cuBungi=#{cuBungi}
+    	  , cuSubject=#{cuSubject} 
+    	WHERE cuRnum = #{cuRnum}
+    </update> 
+    
+    <!-- 결제여부 (0:보류 / 1:승인 / 2: 반려 / 3: 대기) -->
+    <select id="selectSignInfo" parameterType="com.kosta.th147_4group.vo.CurriculumVO" resultType="com.kosta.th147_4group.vo.CurriculumVO" >
+		SELECT 
+		  	  c.rownum as rownum
+		    , c.cuRnum as cuRnum
+		    , c.cuGrade as cuGrade
+		    , c.cuClass as cuClass
+		    , c.cuTitle as cuTitle
+		    , c.cuMessage as cuMessage
+		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		FROM
+		(
+			SELECT @rownum := @rownum + 1 AS rownum, CURRICULUM.*
+			FROM
+			CURRICULUM, (SELECT @rownum :=0) n
+			WHERE cuGrade=#{cuGrade} AND cuClass=#{cuClass} AND cuSign=#{cuSign}			
+				
+			ORDER BY cuSubject ASC
+		) c
+		ORDER BY cuSubject ASC
+	</select>
+    
+	<select id="selectPageSignInfo" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.CurriculumVO" >
+		SELECT 
+		  	  c.rownum as rownum
+		    , c.cuRnum as cuRnum
+		    , c.cuGrade as cuGrade
+		    , c.cuClass as cuClass
+		    , c.cuTitle as cuTitle
+		    , c.cuMessage as cuMessage
+		    , c.cuDate as cuDate
+		    , c.cuName as cuName
+		    , c.cuCategory as cuCategory
+		    , c.cuBungi as cuBungi 
+		    , c.cuSubject as cuSubject 
+		    , c.cuSign as cuSign 
+		    , c.cuSign2 as cuSign2 
+		    , c.cuSignComment1 as cuSignComment1
+			, c.cuSignComment2 as cuSignComment2
+			, c.cuSignDate as cuSignDate
+			, c.cuSignDate2 as cuSignDate2
+			, c.cuSignSendDate as cuSignSendDate
+		FROM
+		(
+			SELECT @rownum := @rownum + 1 AS rownum, CURRICULUM.*
+			FROM
+			CURRICULUM, (SELECT @rownum :=0) n
+			WHERE (cuGrade=#{cuGrade} AND cuClass=#{cuClass}) 
+			<if test="cuSign != null and cuSign != 1">
+			AND cuSign=#{cuSign}
+			</if>
+			<if test="cuSign != null and cuSign == 1">
+			OR cuSign=#{cuSign}
+			</if>
+			<if test="cuSign2 != null and cuSign2 == 1">
+			AND cuSign2=#{cuSign2}
+			</if>
+			<if test="cuSign2 != null and cuSign2 != 1">
+			OR cuSign2=#{cuSign2}
+			</if>
+			ORDER BY rownum ASC
+		) c
+		WHERE rownum BETWEEN #{num1} AND #{num2}
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- Chart View -->
+	<select id="selectChart" parameterType="java.util.Map" resultType="int" >
+		SELECT count(*)
+		FROM CURRICULUM
+		WHERE	
+				cuGrade=#{cuGrade}
+			AND cuClass=#{cuClass}
+			AND cuSubject=#{cuSubject}
+			AND cuCategory=#{cuCategory}
+			AND cuBungi=#{cuBungi}
+			AND cuDate BETWEEN #{date1} AND #{date2}
+	</select>
+	
+	<!-- 교장 View -->
+	<select id="principalSelect" parameterType="com.kosta.th147_4group.vo.CurriculumVO" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		SELECT 
+		  	  cuRnum
+		    , cuGrade
+		    , cuClass
+		    , cuTitle
+		    , cuMessage
+		    , cuDate
+		    , cuName
+		    , cuCategory
+		    , cuBungi 
+		    , cuSubject 
+		    , cuSign 
+			, cuSign2
+			, cuSignComment1
+			, cuSignComment2
+			, cuSignDate
+			, cuSignDate2
+			, cuSignSendDate
+		FROM CURRICULUM
+		WHERE 1=1 
+		<if test="cuSign2 != null">
+		 AND cuSign2=#{cuSign2}
+		</if>
+  		<if test="cuClass != null and cuGrade != null">
+   			AND cuClass=#{cuClass}
+   			AND cuGrade=#{cuGrade}
+   		</if>
+		ORDER BY cuSubject
+	</select>
+	
+	<!-- 교감 View -->
+	<select id="subprinSelect" parameterType="com.kosta.th147_4group.vo.CurriculumVO" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		SELECT 
+		  	  cuRnum
+		    , cuGrade
+		    , cuClass
+		    , cuTitle
+		    , cuMessage
+		    , cuDate
+		    , cuName
+		    , cuCategory
+		    , cuBungi 
+		    , cuSubject 
+		    , cuSign 
+			, cuSign2
+			, cuSignComment1
+			, cuSignComment2
+			, cuSignDate
+			, cuSignDate2
+			, cuSignSendDate
+		FROM CURRICULUM
+		WHERE 1=1 
+		<if test="cuSign != null">
+		 AND cuSign=#{cuSign}
+		</if>
+  		<if test="cuClass != null and cuGrade != null">
+   			AND cuClass=#{cuClass}
+   			AND cuGrade=#{cuGrade}
+   		</if>
+		ORDER BY cuSubject
+	
+	</select>
+	
+	<!-- 차트 View 안에 과목별 리스트 넣기 -->
+	<select id="selectChartList" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.CurriculumVO">
+		SELECT 
+			  cuRnum
+		    , cuGrade
+		    , cuClass
+		    , cuTitle
+		    , cuMessage
+		    , cuDate
+		    , cuName
+		    , cuCategory
+		    , cuBungi 
+		    , cuSubject 
+		    , cuSign 
+			, cuSign2
+			, cuSignComment1
+			, cuSignComment2
+			, cuSignDate
+			, cuSignDate2
+			, cuSignSendDate
+		FROM CURRICULUM
+		WHERE	
+				cuGrade=#{cuGrade}
+			AND cuClass=#{cuClass}
+			AND cuSubject=#{cuSubject}
+			AND cuCategory=#{cuCategory}
+			AND cuBungi=#{cuBungi}
+			AND cuDate BETWEEN #{date1} AND #{date2}
+	</select>
+	
+</mapper>

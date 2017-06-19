@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="msgSession">
+	
+	<!-- 메세지 DB에서 현재 내가 받은 쪽지들을 가져온다 -->
+   <select id="selectMessage" parameterType="String" resultType="com.kosta.th147_4group.vo.MessageVO">
+   	SELECT * FROM MESSAGE WHERE meGet=#{sessionID}
+   </select>
+   
+   <!-- MESSAGE DB에 insert 를 한다. -->
+   <insert id="insertMessage" parameterType="com.kosta.th147_4group.vo.MessageVO">
+    INSERT INTO MESSAGE VALUES(#{meSend}, #{meGet}, #{meMessage}, now());
+   </insert>
+   
+   <!-- 학년, 반으로 교사를 search 한다. -->
+   <select id="searchMessageMember" parameterType="com.kosta.th147_4group.vo.Grade_2017VO" resultType="com.kosta.th147_4group.vo.Grade_2017VO">
+   	SELECT * FROM GRADE_2017 where grGrade=#{grGrade} AND grClass=#{grClass} AND grId NOT LIKE '5%'
+   </select> 
+   
+    <!-- 세부적으로, 학년, 반, 번호로 교사를 search 한다. (동일 이름이 존재할 수 있으므로)-->
+   <select id="searchDetailMessageMember" parameterType="com.kosta.th147_4group.vo.Grade_2017VO" resultType="com.kosta.th147_4group.vo.Grade_2017VO">
+   	SELECT * FROM GRADE_2017 WHERE grGrade=#{grGrade} AND grClass=#{grClass} AND grNo=#{grNo} AND grId NOT LIKE '5%'
+   </select> 
+   
+   <!-- 회원들 중, 선생님만 갖고온다. -->
+   <select id="selectTeacherMember" resultType="com.kosta.th147_4group.vo.Grade_2017VO">
+   	SELECT * FROM GRADE_2017 WHERE grId NOT LIKE '5%'
+   </select>
+   
+   <!-- 회원들 중, 학부모만 갖고온다. -->
+   <select id="selectParentMember" resultType="com.kosta.th147_4group.vo.Grade_2017VO">
+   	SELECT * FROM GRADE_2017 WHERE grId LIKE '5%'
+   </select>
+	
+</mapper>

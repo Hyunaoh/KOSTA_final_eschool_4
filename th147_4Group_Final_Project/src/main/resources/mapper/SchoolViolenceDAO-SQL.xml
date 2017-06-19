@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="sqlSession">
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllSchoolViolence" resultType="com.kosta.th147_4group.vo.SchoolViolenceVO">
+		SELECT sv.rownum as svRownum, sv.svNum as svNum, sv.svGrade as svGrade, sv.svSchoolClass as svSchoolClass, sv.svTitle as svTitle,
+        sv.svMessage as svMessage, sv.svDate as svDate, sv.svWriter as svWriter, sv.svCategoly as svCategoly, sv.svHit as svHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, SCHOOLVIOLENCE.*
+		FROM
+		SCHOOLVIOLENCE, (SELECT @rownum :=0) n 
+		where svFlag=0
+		ORDER BY rownum ASC 
+		) sv
+	</select>
+
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailSchoolViolence" parameterType="int" resultType="com.kosta.th147_4group.vo.SchoolViolenceVO">
+		SELECT @rownum := @rownum + 1 AS svRownum, SCHOOLVIOLENCE.*
+		FROM
+		SCHOOLVIOLENCE, (SELECT @rownum :=0) n WHERE svNum=#{svNum} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteSchoolViolence" parameterType="int">
+		UPDATE SCHOOLVIOLENCE SET svFlag := 1 WHERE svNum = #{svNum}
+	</delete>
+
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPageSchoolViolence" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.SchoolViolenceVO" >
+		SELECT sv.rownum as svRownum, sv.svNum as svNum, sv.svGrade as svGrade, sv.svSchoolClass as svSchoolClass, sv.svTitle as svTitle,
+        sv.svMessage as svMessage, sv.svDate as svDate, sv.svWriter as svWriter, sv.svCategoly as svCategoly, sv.svHit as svHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, SCHOOLVIOLENCE.*
+		FROM
+		SCHOOLVIOLENCE, (SELECT @rownum :=0) n
+		WHERE svFlag=0 
+		ORDER BY rownum ASC
+		) sv
+		where sv.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertSchoolViolence" parameterType="com.kosta.th147_4group.vo.SchoolViolenceVO" >
+     
+      INSERT INTO SCHOOLVIOLENCE(svGrade, svSchoolClass, svTitle, svMessage, svWriter, svCategoly, svHit)
+      VALUES( #{svGrade}, #{svSchoolClass}, #{svTitle}, #{svMessage}, #{svWriter}, #{svCategoly}, 0)
+     </insert>
+     
+    <!-- 클릭할 때 조회수 올라가는 쿼리 -->
+    <update id="updateSchoolViolenceHit" parameterType="int">
+    	UPDATE SCHOOLVIOLENCE SET svHit := svHit+1 WHERE svNum = #{svNum}
+    </update>
+	
+	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateSchoolViolence" parameterType="java.util.Map">
+    	UPDATE SCHOOLVIOLENCE SET svTitle=#{svTitle}, svMessage=#{svMessage}, svCategoly=#{svCategoly} WHERE svNum = #{svNum}
+    </update>
+    
+</mapper>

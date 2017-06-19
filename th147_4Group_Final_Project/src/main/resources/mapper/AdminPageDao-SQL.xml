@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="adminSqlSession">
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllAdmin" resultType="com.kosta.th147_4group.vo.MemberVO">
+		SELECT 
+		mem.rownum as meRownum
+		, mem.num as num
+		, mem.id as id
+		, mem.name as name
+		, mem.grade as grade
+		, mem.schoolClass as schoolClass
+		, mem.tel as tel
+		, mem.postcode as postcode
+		, mem.roadAddress as roadAddress
+		, mem.jibunAddress as jibunAddress
+		, mem.email as email
+		, mem.level as level
+		, mem.stName as stName
+		, mem.sms as sms
+		, mem.gender as gender
+		, mem.date as date
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, MEMBER.*
+		FROM
+		MEMBER, (SELECT @rownum :=0) n 
+		where meFlag=0
+		ORDER BY rownum ASC 
+		) mem
+	</select>
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailAdmin" parameterType="int" resultType="com.kosta.th147_4group.vo.MemberVO">
+		SELECT @rownum := @rownum + 1 AS meRownum, MEMBER.*
+		FROM
+		MEMBER, (SELECT @rownum :=0) n WHERE num=#{num} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteAdmin" parameterType="int">
+		UPDATE MEMBER SET meFlag := 1 WHERE num = #{num}
+	</delete>
+
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPageAdmin" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.MemberVO" >
+		SELECT 
+		mem.rownum as meRownum
+		, mem.num as num
+		, mem.id as id
+		, mem.name as name
+		, mem.grade as grade
+		, mem.schoolClass as schoolClass
+		, mem.tel as tel
+		, mem.postcode as postcode
+		, mem.roadAddress as roadAddress
+		, mem.jibunAddress as jibunAddress
+		, mem.email as email
+		, mem.level as level
+		, mem.stName as stName
+		, mem.sms as sms
+		, mem.gender as gender
+		, mem.date as date
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, MEMBER.*
+		FROM
+		MEMBER, (SELECT @rownum :=0) n
+		WHERE meFlag=0 
+		ORDER BY rownum ASC
+		) mem
+		where mem.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertAdmin" parameterType="com.kosta.th147_4group.vo.MemberVO" >
+     
+      INSERT INTO MEMBER(num, id, pw, name, gender, tel, email, level, stName, grade, schoolClass, sms, date, meFlag, postcode, roadAddress, jibunAddress)
+      VALUES( #{num}, #{id}, #{pw}, #{name}, #{gender}, #{tel}, #{email}, #{level}, #{stName}, #{grade}, #{schoolClass}, #{sms}, now(), '0', #{postcode}, #{roadAddress}, #{jibunAddress})
+     </insert>
+     
+     <!-- 아이디 중복체크 -->
+    <select id="idCheckAdmin" parameterType="String" resultType="com.kosta.th147_4group.vo.MemberVO">
+		SELECT COUNT(*) AS CNT
+  		FROM MEMBER  
+ 		WHERE 1 = 1
+ 		AND MEMBER.id = #{id}
+	</select> 
+     
+	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateAdmin" parameterType="java.util.Map">
+    	UPDATE MEMBER 
+    	SET num=#{num}
+	    	, pw=#{pw}
+	    	, name=#{name}
+	    	, gender=#{gender}
+	    	, tel=#{tel}
+	    	, postcode=#{postcode}
+	    	, roadAddress=#{roadAddress}
+	    	, jibunAddress=#{jibunAddress}
+	    	, email=#{email}
+	    	, stName=#{stName}
+	    	, grade=#{grade}
+	    	, schoolClass=#{schoolClass}
+	    	, level=#{level}, sms=#{sms}
+    	WHERE id = #{id}
+    </update>
+
+</mapper>     

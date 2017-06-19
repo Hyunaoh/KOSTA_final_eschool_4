@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AttendanceSql">
+	<!-- 학년 조회 -->
+	<select id="selectAll" resultType="com.kosta.th147_4group.vo.AttendanceVO" parameterType="com.kosta.th147_4group.vo.AttendanceVO">
+		SELECT * FROM ATTENDANCE WHERE atGrade=${atGrade} AND atClass=${atClass}
+	</select>
+	<!-- 교사 아이디로 학생들 조회 -->
+	<select id="selectatTeacher" resultType="com.kosta.th147_4group.vo.AttendanceVO" parameterType="com.kosta.th147_4group.vo.AttendanceVO">
+		SELECT * FROM ATTENDANCE WHERE atTeacher=#{atTeacher} and atDate=#{atDate}
+	</select>
+	<!-- 학생 출석부 조회/출석부 -->
+	<select id="attendanceSearch" resultType="com.kosta.th147_4group.vo.AttendanceVO" parameterType="java.util.HashMap">
+		SELECT * FROM ATTENDANCE WHERE atGrade=#{atGrade} and atClass=#{atClass} and atDate=#{atDate} and atFlag=0
+	</select>	
+	<!-- 부모님이 학생 출석부 조회 -->
+	<select id="dateSearch" resultType="com.kosta.th147_4group.vo.AttendanceVO" parameterType="java.util.HashMap">
+		SELECT * FROM ATTENDANCE WHERE atName=#{atName} and atGrade=#{atGrade} and atDate=#{atDate} and atFlag=0
+	</select>
+	<!-- 학생 출석부 조회 디테일 -->
+	<select id="dateSearchDetail" resultType="com.kosta.th147_4group.vo.AttendanceVO" parameterType="java.util.HashMap">
+		SELECT * FROM ATTENDANCE WHERE atName=#{atName} and atGrade=#{atGrade} and atFlag=0 and BETWEEN atDate=#{atDate1} and atDate=#{atDate2}
+	</select>
+	
+	<!-- 출석부 수정-전학생 -->
+	<update id="updateFlag" parameterType="java.util.HashMap">
+		UPDATE ATTENDANCE SET atFlag=#{atFlag}where atNum=#{atNum}
+	</update>
+	<!-- 출석부 수정 -->
+	<update id="updatePeople" parameterType="java.util.HashMap">
+		UPDATE ATTENDANCE
+		SET atAttendance=#{atAttendance}, atAttendance2=#{atAttendance2}
+		where atTeacher=#{atTeacher} and atNum=#{atNum} and
+		atFlag='0'
+	</update>
+	<!-- 출석부 입력 -->
+	<insert id="insertPeople" parameterType="java.util.HashMap">
+		INSERT INTO ATTENDANCE(atName, atAttendance, atAttendance2, atDate, atDated, atGrade, atClass, atNum , atLevel, atTeacher, atFlag)
+		VALUES(#{atName},#{atAttendance},#{atAttendance2},#{atDate},#{atDated},#{atGrade}, #{atClass},
+		#{atNum},#{atLevel},#{atTeacher},'0')
+	</insert>
+		<insert id="insertPerson" parameterType="com.kosta.th147_4group.vo.AttendanceVO">
+		INSERT INTO ATTENDANCE(atName, atAttendance, atAttendance2, atDate, atDated, atGrade, atClass, atNum , atLevel, atTeacher, atFlag)
+		VALUES(#{atName},#{atAttendance},#{atAttendance2},#{atDate},#{atDated},#{atGrade}, #{atClass},
+		#{atNum},#{atLevel},#{atTeacher},'0')
+	</insert>
+</mapper>

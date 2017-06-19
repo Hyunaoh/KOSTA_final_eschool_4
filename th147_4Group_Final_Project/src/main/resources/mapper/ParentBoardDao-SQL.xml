@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Parent.BoardMapper"> <!-- BoardMapper SQL class 파일 위치 net.my.mybatis.BoardMapper -->
+	<!-- maria query 확인완료 -->
+	<select id="getArticleList" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.ParentBoardArticleVO">
+		SELECT b.articleno, b.title, b.regdate, writer, b.hit, b.regip, b.name, b.attachfilenum, b.commentnum
+		FROM(  
+			        SELECT @ROWNUM := @ROWNUM + 1 AS ROWNUM, a.*
+			        FROM(
+			                    SELECT a.articleno, title, a.regdate, writer, hit, regip, name, count(distinct(f.attachfileno)) attachfilenum, count(distinct(c.commentno)) commentnum
+			  		            FROM PARENTATICLE a LEFT OUTER JOIN PARENTATTACHFILE f ON (a.articleno=f.articleno) 
+			  		           							   LEFT OUTER JOIN PARENTCOMMENTS c ON (a.articleno=c.articleno)
+			  		            WHERE boardcd = #{boardCd} 
+								                 <if test="searchWord != null">
+										        AND (title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%')
+												</if>
+			                   GROUP BY a.articleno, title, a.regdate, writer, hit
+			  		           ORDER BY articleno DESC
+			        ) a, (SELECT @ROWNUM := 0) R
+			  ) b 
+		WHERE ROWNUM BETWEEN #{start} AND #{end}
+	</select>
+
+	<!-- maria query 확인완료 -->
+	<select id="getTotalRecord" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) 
+		FROM PARENTATICLE 
+		WHERE boardcd = #{boardCd}
+						<if test="searchWord != null">
+							AND (title LIKE '%${searchWord}%' OR content LIKE '%${searchWord}%')
+						</if>
+	</select>
+	
+	<!-- maria query 확인완료 -->
+	<insert id="insert" parameterType="com.kosta.th147_4group.vo.ParentBoardArticleVO"> 
+		INSERT INTO PARENTATICLE (boardcd, title, content, writer, email, hit, regdate, regip, name)
+		VALUES (#{boardCd}, #{title}, #{content}, #{writer}, #{email}, 0, now(), #{regip}, #{name})
+	</insert>
+	
+	<!-- maria query 확인완료 -->
+	<update id="update" parameterType="com.kosta.th147_4group.vo.ParentBoardArticleVO">
+		UPDATE PARENTATICLE
+		SET title=#{title},content=#{content}
+		WHERE articleno=#{articleNo}
+	</update>
+	
+	<!-- maria query 확인완료 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM PARENTATICLE WHERE articleno = #{articleNo}
+	</delete>
+	
+		<!-- maria query 확인완료 -->
+	<select id="getBoardNm" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT boardNm 
+		FROM PARENTBOARD 
+		WHERE boardcd = #{boardCd}
+	</select>
+	
+	<!-- maria query 확인완료 -->
+	<update id="increaseHit" parameterType="int">
+		UPDATE PARENTATICLE 
+		SET hit = hit + 1 
+		WHERE articleno = #{articleNo}
+	</update>
+	
+	<!--다시 분석 !!!-->
+	<resultMap type="com.kosta.th147_4group.vo.ParentBoardArticleVO" id="ArticleClob">
+		<result property="content" column="content" jdbcType="CLOB"
+			javaType="java.lang.String" />
+	</resultMap>
+
+		<!-- maria query 확인완료 -->
+	<select id="getArticle" parameterType="int" resultMap="ArticleClob">
+		SELECT articleno, title, content, writer, email, hit, regdate, regip, name
+		FROM PARENTATICLE
+		WHERE articleno = #{articleNo}
+	</select>
+
+	<select id="getPrevArticle" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.ParentBoardArticleVO">
+		SELECT articleno, title 
+		FROM PARENTATICLE WHERE boardCd = #{boardCd} AND articleno &lt; #{articleNo}
+		ORDER BY articleno DESC
+		limit 0, 1
+	</select>
+
+	<select id="getNextArticle" parameterType="java.util.Map" resultType="com.kosta.th147_4group.vo.ParentBoardArticleVO">
+		SELECT articleno, title 
+		FROM PARENTATICLE WHERE boardCd = #{boardCd} AND articleno &gt; #{articleNo}
+		ORDER BY articleno
+		limit 0, 1  
+	</select>
+	
+	<select id="getNewArticle" resultType="com.kosta.th147_4group.vo.ParentBoardArticleVO">
+	    SELECT articleno, title, content, writer, email, hit, regdate, regip, name
+	    FROM PARENTATICLE 
+	    ORDER BY articleno DESC 
+	    limit 0, 1
+	</select>
+	
+	<!-- 파일 첨부하기  -->
+	<insert id="insertAttachFile" parameterType="com.kosta.th147_4group.vo.ParentBoardAttachFileVO">
+		INSERT INTO PARENTATTACHFILE (filename, filetype, filesize, articleno, uploader)
+		VALUES (#{filename}, #{filetype}, #{filesize}, #{articleNo}, #{uploader})
+	</insert>
+
+	<select id="getAttachFileList" parameterType="int" resultType="com.kosta.th147_4group.vo.ParentBoardAttachFileVO">
+		SELECT attachfileno, filename, filetype, filesize, articleno, uploader
+		FROM PARENTATTACHFILE
+		WHERE articleno = #{articleNo}
+		ORDER BY attachfileno
+	</select>
+
+	<delete id="deleteFile" parameterType="int">
+		DELETE FROM PARENTATTACHFILE WHERE attachfileno = #{attachFileNo}
+	</delete>
+
+	<!--댓글 DB -->
+	<insert id="insertComment" parameterType="com.kosta.th147_4group.vo.ParentBoardCommentVO">
+		INSERT INTO PARENTCOMMENTS (articleno, email, memo, regdate, uip, user, uname)
+		VALUES (#{articleNo}, #{email}, #{memo}, now(), #{uip}, #{user}, #{uname})
+	</insert>
+	
+	<update id="updateComment" parameterType="com.kosta.th147_4group.vo.ParentBoardCommentVO">
+		UPDATE PARENTCOMMENTS 
+		SET memo = #{memo} 
+		WHERE commentno = #{commentNo}
+	</update>
+
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM PARENTCOMMENTS WHERE commentno = #{commentNo}
+	</delete>
+
+	<select id="getComment" parameterType="int" resultType="com.kosta.th147_4group.vo.ParentBoardCommentVO">
+		SELECT commentno,articleno,email,memo,regdate, uip, user, uname
+		FROM PARENTCOMMENTS
+		WHERE commentno = #{commentNo}
+	</select>
+
+	<select id="getCommentList" parameterType="int" resultType="com.kosta.th147_4group.vo.ParentBoardCommentVO">
+		SELECT commentno, articleno, email, memo, regdate, uip, user, uname
+		FROM PARENTCOMMENTS
+		WHERE articleno = #{articleNo}
+		ORDER BY commentno DESC
+	</select>
+
+</mapper>

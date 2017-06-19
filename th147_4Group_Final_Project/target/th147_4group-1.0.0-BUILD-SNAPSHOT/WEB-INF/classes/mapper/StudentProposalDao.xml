@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="sqlSession">
+
+	<!-- 건의사항 모든 데이터 받아오기 -->
+	<select id="getAllStudentProposal" resultType="java.util.List">
+		SELECT st.rownum as stRownum, st.stNum as stNum, st.stGrade as stGrade, st.stSchoolClass as stSchoolClass, st.stTitle as stTitle,
+        st.stMessage as stMessage, st.stDate as stDate, st.stWriter as stWriter, st.stCategoly as stCategoly, st.stHit as stHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, STUDENTPROPOSAL.*
+		FROM
+		STUDENTPROPOSAL, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) st
+	</select>
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 detail페이지 -->
+	<select id="detailStudentProposal" parameterType="int" resultType="com.kosta.th147_4group.vo.StudentProposalVO">
+		SELECT @rownum := @rownum + 1 AS stRownum, STUDENTPROPOSAL.*
+		FROM
+		STUDENTPROPOSAL, (SELECT @rownum :=0) n WHERE stNum=#{stNum} 
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteStudentProposal" parameterType="int">
+		DELETE STUDENTPROPOSAL WHERE stNum=#{stNum}
+	</delete>
+
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPageProposal" parameterType="java.util.Map" resultType="java.util.List" >
+		SELECT st.rownum as stRownum, st.stNum as stNum, st.stGrade as stGrade, st.stSchoolClass as stSchoolClass, st.stTitle as stTitle,
+        st.stMessage as stMessage, st.stDate as stDate, st.stWriter as stWriter, st.stCategoly as stCategoly, st.stHit as stHit 
+		FROM 
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, STUDENTPROPOSAL.*
+		FROM
+		STUDENTPROPOSAL, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) st
+		WHERE st.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+	
+	<!-- 글 등록 -->
+	<insert id="insertStudentProposal" parameterType="com.kosta.th147_4group.vo.StudentProposalVO" >
+     
+      INSERT INTO STUDENTPROPOSAL(stGrade, stSchoolClass, stTitle, stMessage, stWriter, stCategoly, stHit)
+      VALUES( #{stGrade}, #{stSchoolClass}, #{stTitle}, #{stMessage}, #{stWriter}, #{stCategoly}, 0)
+     </insert>
+     
+    <!-- 클릭할 때 조회수 올라가는 쿼리 -->
+    <update id="updateStudentHit" parameterType="int">
+    	UPDATE STUDENTPROPOSAL SET stHit := stHit+1 WHERE stNum = #{stNum}
+    </update>
+	
+	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateStudent" parameterType="java.util.Map">
+    	UPDATE STUDENTPROPOSAL SET stTitle=#{stTitle}, stMessage=#{stMessage}, stCategoly=#{stCategoly} WHERE stNum = #{stNum}
+    </update>
+
+</mapper> 

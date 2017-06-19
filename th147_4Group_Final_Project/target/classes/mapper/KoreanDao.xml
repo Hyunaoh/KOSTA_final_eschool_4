@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="dao.NoticeDao 인터페이스 동일 경로 구현된되는 ID 값들을 인터페이스 함수명과 동일 -->
+<mapper namespace="sqlSession">
+	
+	<!-- 모든 데이터 받아오기 -->
+	<select id="getAllKorean" resultType="com.kosta.th147_4group.vo.KoreanVO">
+		SELECT k.rownum as rownum, k.koRnum as koRnum, k.koGrade as koGrade, k.koClass as koClass, k.koMessage as koMessage,
+        k.koDate as koDate, k.koName as koName, k.koCategoly as koCategoly, k.koBungi as koBungi 
+		FROM
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, KOREAN.*
+		FROM
+		KOREAN, (SELECT @rownum :=0) n
+		where stFlag=0
+		ORDER BY rownum ASC
+		) k
+	</select> 
+	
+	<!-- 특정 컬럼의 모든 데이터 받아오기 -->
+	<select id="getSearchKorean" parameterType="String" resultType="com.kosta.th147_4group.vo.KoreanVO">
+		SELECT @rownum := @rownum + 1 AS koRnum, KOREAN.*
+		FROM
+		KOREAN, (SELECT @rownum :=0) n WHERE koGrade='%${value}%'
+		<if test="value != null">
+			AND ( koClass LIKE '%${value}%' OR
+			koMessage LIKE '%${value}%' OR
+			koDate LIKE '%${value}%' OR
+			koName LIKE '%${value}%' OR
+			koCategoly LIKE '%${value}%' OR
+			koBungi LIKE '%${value}%')
+		</if>
+		
+	</select>
+	
+	<!-- 특정 컬럼 삭제하기 -->
+	<delete id="deleteKoreanByNum" parameterType="int" >
+		UPDATE KOREAN SET stFlag := 1 WHERE koRnum = #{koRnum}
+	</delete> 
+	
+	<!-- 페이지 넘버 받아오기 -->
+	<select id="getNowPageKorean" parameterType="java.util.HashMap" resultType="com.kosta.th147_4group.vo.KoreanVO" >
+		SELECT k.koRnum as rownum,  k.koRnum as koRnum, k.koGrade as koGrade, k.koClass as koClass, k.koMessage as koMessage,
+        k.koDate as koDate, k.koName as koName, k.koCategoly as koCategoly, k.koBungi as koBungi 
+		FROM
+		(
+		SELECT @rownum := @rownum + 1 AS rownum, KOREAN.*
+		FROM
+		KOREAN, (SELECT @rownum :=0) n
+		ORDER BY rownum ASC
+		) k
+		WHERE k.rownum BETWEEN #{num1} AND #{num2} 
+		ORDER BY rownum ASC
+	</select>
+
+	<!-- 글 등록 -->
+	<insert id="insertKorean" parameterType="com.kosta.th147_4group.vo.KoreanVO">
+		INSERT INTO KOREAN(koRnum, koGrade, koClass, koMessage, koDate, koName, koCategoly, koBungi)
+		VALUES( #{koRnum}, #{koGrade}, #{koClass},#{koMessage}, #{koDate}, #{koName},#{koCategoly}, #{koBungi})
+	</insert>
+	
+	<!-- 특정 컬럼 수정하기 -->
+    <update id="updateKorean" parameterType="java.util.Map">
+    	UPDATE KOREAN SET koGrade=#{koGrade}, koClass=#{koClass}, koMessage=#{koMessage}, koDate=#{koDate}, 
+    	koName=#{koName}, koCategoly=#{koCategoly}, koBungi=#{koBungi} WHERE koRnum = #{koRnum}
+    </update>
+	
+</mapper>

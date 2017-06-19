@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="hope">
+
+	<sql id="includeBoard">
+		WHERE brdDeleteflag='N'
+         <if test="searchKeyword!=null and searchKeyword!='' and searchType!='' ">
+			  <foreach item="item" index="index" collection="searchTypeArr">
+			        AND ${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+			  </foreach>
+		</if>	           
+    </sql>
+
+    <select id="selectBoardCount" resultType="Integer" parameterType="com.kosta.th147_4group.common.SearchVO">
+        SELECT COUNT(*)
+          FROM HOPE
+         <include refid="includeBoard"/>
+    </select>  
+    
+    <select id="selectBoardList" resultType="com.kosta.th147_4group.vo.HopeVO" parameterType="com.kosta.th147_4group.common.SearchVO">
+        SELECT brdNo, brdTitle, brdWriter, DATE_FORMAT(brdDate,'%Y-%m-%d') brdDate, brdHit
+          FROM HOPE
+         <include refid="includeBoard"/>
+         ORDER BY brdNo DESC 
+         LIMIT ${rowStart-1}, 10
+    </select> 
+    
+    <insert id="insertBoard" parameterType="com.kosta.th147_4group.vo.HopeVO" >
+    	INSERT INTO HOPE(brdTitle, brdWriter, brdMemo, brdDate, brdHit, brdDeleteflag)
+		VALUES (#{brdtitle}, #{brdwriter}, #{brdmemo}, NOW(), 0, 'N' )
+	</insert>
+	
+    <update id="updateBoard" parameterType="com.kosta.th147_4group.vo.HopeVO">
+        UPDATE HOPE
+           SET brdTitle=#{brdtitle}
+             , brdWriter=#{brdwriter}
+             , brdMemo=#{brdmemo} 
+         WHERE brdDeleteflag='N'
+           AND brdNo=#{brdno}
+    </update> 
+		 
+    <select id="selectBoardOne" parameterType="String" resultType="com.kosta.th147_4group.vo.HopeVO">
+        SELECT brdNo, brdTitle, brdWriter, brdMemo, DATE_FORMAT(brdDate,'%Y-%m-%d') brdDate
+          FROM HOPE
+         WHERE brdDeleteflag='N'
+           AND brdNo=#{brdno}
+    </select> 
+
+    <update id="updateBoardRead" parameterType="String">
+        UPDATE HOPE
+           SET brdHit = brdHit + 1 
+         WHERE brdNo=#{brdno}
+    </update> 
+
+    <delete id="deleteBoardOne" parameterType="String">
+        UPDATE HOPE
+           SET brdDeleteflag='Y' 
+         WHERE brdNo=#{brdno}
+    </delete> 
+
+</mapper>
+
