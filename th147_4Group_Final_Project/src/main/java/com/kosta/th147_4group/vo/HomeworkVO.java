@@ -3,70 +3,114 @@ package com.kosta.th147_4group.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.kosta.th147_4group.common.utiletc;
+
+
 
 public class HomeworkVO {
 
-	private String hwNo;
-	private String hwId;
-	private String hwTitle;
-	private String hwWriter;
-	private String hwContent;
-	private Date hwYmd;
-	private String hwHit;
-	private  String hwDeleteflag;
-	public String getHwNo() {
-		return hwNo;
-	}
-	public void setHwNo(String hwNo) {
-		this.hwNo = hwNo;
-	}
-	public String getHwId() {
-		return hwId;
-	}
-	public void setHwId(String hwId) {
-		this.hwId = hwId;
-	}
-	public String getHwTitle() {
-		return hwTitle;
-	}
-	public void setHwTitle(String hwTitle) {
-		this.hwTitle = hwTitle;
-	}
-	public String getHwWriter() {
-		return hwWriter;
-	}
-	public void setHwWriter(String hwWriter) {
-		this.hwWriter = hwWriter;
-	}
-	public String getHwContent() {
-		return hwContent;
-	}
-	public void setHwContent(String hwContent) {
-		this.hwContent = hwContent;
-	}
-	public Date getHwYmd() {
-		return hwYmd;
-	}
-	public void setHwYmd(Date hwYmd) {
-		this.hwYmd = hwYmd;
-	}
-	public String getHwHit() {
-		return hwHit;
-	}
-	public void setHwHit(String hwHit) {
-		this.hwHit = hwHit;
-	}
-	public String getHwDeleteflag() {
-		return hwDeleteflag;
-	}
-	public void setHwDeleteflag(String hwDeleteflag) {
-		this.hwDeleteflag = hwDeleteflag;
-	}
-	@Override
-	public String toString() {
-		return "HomeworkVO [hwNo=" + hwNo + ", hwId=" + hwId + ", hwTitle=" + hwTitle + ", hwWriter=" + hwWriter
-				+ ", hwContent=" + hwContent + ", hwYmd=" + hwYmd + ", hwHit=" + hwHit + ", hwDeleteflag="
-				+ hwDeleteflag + "]";
-	}
+    private String brdno;
+    private String brdtitle; 
+    private String brdwriter; 
+    private String brdmemo; 
+    private String brddate; 
+    private String brdhit; 
+    private String brddeleteflag; 
+    private String filecnt;
+    private String replycnt;
+    
+    
+    /* 첨부파일 */
+    private List<MultipartFile> uploadfile;
+
+    /**
+     * 게시물 제목을 글자수에 맞추어 자르기.
+     */
+    public String getShortTitle(Integer len) {
+        return utiletc.getShortString(brdtitle, len);
+    }
+    
+    public String getBrdno() {
+        return brdno;
+    }
+
+    public void setBrdno(String brdno) {
+        this.brdno = brdno;
+    }
+
+    public String getBrdtitle() {
+        return brdtitle; 
+    }
+
+    public void setBrdtitle(String brdtitle) {
+        this.brdtitle = brdtitle;
+    }
+
+    public String getBrdwriter() {
+        return brdwriter;
+    }
+
+    public void setBrdwriter(String brdwriter) {
+        this.brdwriter = brdwriter;
+    }
+
+    public String getBrdmemo() {
+        return brdmemo.replaceAll("(?i)<script", "&lt;script");
+    }
+
+    public void setBrdmemo(String brdmemo) {
+        this.brdmemo = brdmemo;
+    }
+
+    public String getBrddate() {
+        return brddate;
+    }
+
+    public void setBrddate(String brddate) {
+        this.brddate = brddate;
+    }
+
+    public String getBrdhit() {
+        return brdhit;
+    }
+
+    public void setBrdhit(String brdhit) {
+        this.brdhit = brdhit;
+    }
+
+    public String getBrddeleteflag() {
+        return brddeleteflag;
+    }
+
+    public void setBrddeleteflag(String brddeleteflag) {
+        this.brddeleteflag = brddeleteflag;
+    }
+
+    public List<MultipartFile> getUploadfile() {
+        return uploadfile;
+    }
+
+    public void setUploadfile(List<MultipartFile> uploadfile) {
+        this.uploadfile = uploadfile;
+    }
+
+    public String getFilecnt() {
+        return filecnt;
+    }
+
+    public void setFilecnt(String filecnt) {
+        this.filecnt = filecnt;
+    }
+
+    public String getReplycnt() {
+        return replycnt;
+    }
+
+    public void setReplycnt(String replycnt) {
+        this.replycnt = replycnt;
+    }
+    
 }

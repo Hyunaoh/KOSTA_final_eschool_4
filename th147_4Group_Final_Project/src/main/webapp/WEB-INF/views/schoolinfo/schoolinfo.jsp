@@ -8,6 +8,8 @@
 </head>
 <body>
 
+
+
 	<div align="left">
 		<div>
 			<a href="schoolinfoDetail.do">학교정보</a><br> <a

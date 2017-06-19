@@ -9,13 +9,17 @@
 </head>
 <body>
 	
+
 	<!-- menu 부분 INCLUDE -->
+	<div>
 	<jsp:include page="WEB-INF/views/home/menu.jsp"></jsp:include>
+	</div>
 
 	<!-- body 부분 INCLUDE -->
 	<jsp:include page="WEB-INF/views/home/body.jsp"></jsp:include>
 
 	<!-- footer 부분 INCLUDE -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<jsp:include page="WEB-INF/views/home/footer.jsp"></jsp:include>
 
 	

@@ -6,21 +6,7 @@
 
 <head>
 <script type="text/javascript">
-	function add_item() {
-		// pre_set 에 있는 내용을 읽어와서 처리..
-		var div = document.createElement('tr');
-		div.innerHTML = document.getElementById('ko_form').innerHTML;
-		document.getElementById('field').appendChild(tr);
-	}
 
-	function remove_item(obj) {
-		// obj.parentNode 를 이용하여 삭제
-		document.getElementById('field').removeChild(obj.parentNode);
-	}
-
-	function modify_item(obj) {
-		document.getElementById(obj).removeChild(obj.parentNode);
-	}
 </script>
 <jsp:include page="../home/head.jsp"></jsp:include>
 </head>
@@ -29,70 +15,76 @@
 	<jsp:include page="../home/menu.jsp"></jsp:include>
 	<div style="margin-top: 15%; margin-left: 10%">
 		<form action="curriPro.do">
-			<table>
+			<table style="width: 80%">
 				<tr>
 					<th><label>번호</label></th>
 					<th><label>학년</label></th>
 					<th><label>반</label></th>
+					<th><label>제목</label></th>
 					<th><label>내용</label></th>
 					<th><label>날짜</label></th>
+					<th><label>날짜2</label></th>
 					<th><label>이름</label></th>
 					<th><label>카테고리</label></th>
-					<th><label>분기</label></th>
+					<th><label>학기</label></th>
+					<th><label>과목</label></th>
+					<th><label>결재여부</label></th>
 					<th><label>삭제</label></th>
 					<th><label>수정</label></th>
 				</tr>
 
-				<c:forEach var="vo2" items="${ ko_nowPage }" varStatus="status">
-					<c:if test="${ status.index+1 eq param.ko_pageNum }">
+				<c:forEach var="vo2" items="${ cu_nowPage }" varStatus="status">
+					<c:if test="${ status.index+1 eq param.cu_pageNum }">
 						<c:forEach var="vo" items="${ vo2.value }">
-							<tr id="ko_form_hidden" name="ko_form_hidden">
-								<th>${ vo.koRnum }</th>
-								<th><select name="koGrade" id="koGrade" class="ko_form">
-										<option value="${ vo.koGrade }">${ vo.koGrade }학년</option>
-										<option value="1">1학년</option>
-										<option value="2">2학년</option>
-										<option value="3">3학년</option>
-										<option value="4">4학년</option>
-										<option value="5">5학년</option>
-										<option value="6">6학년</option>
-
-								</select></th>
-								<th><select name="koClass" id="koClass" class="ko_form"
-									value="${ vo.koClass }">
-										<option value="${ vo.koClass }">${ vo.koClass }반</option>
-										<option value="1">1반</option>
-										<option value="2">2반</option>
-										<option value="3">3반</option>
-										<option value="4">4반</option>
-										<option value="5">5반</option>
-								</select></th>
-								<th><input type="text" name="koMessage" id="koMessage"
-									value="${ vo.koMessage }" placeholder="내용 입력"></th>
-								<th><input type="date" name="koDate" id="koDate"
-									value="${ vo.koDate }" /></th>
-								<th><input type="text" name="koName" id="koName" placeholder="이름 입력" value="${ vo.koName }" /></th>
-
-								<th><select name="koCategoly" id="koCategoly"
-									class="ko_form" value="${ vo.koCategoly }">
-										<option value="${ vo.koCategoly }">${ vo.koCategoly }</option>
-										<option value="말하기">말하기</option>
-										<option value="듣기">듣기</option>
-										<option value="쓰기">쓰기</option>
-										<option value="읽기">읽기</option>
-								</select></th>
-
-								<th><select name="koBungi" id="koBungi" class="ko_form"
-									value="${ vo.koBungi }">
-										<option value="${ vo.koBungi }">${ vo.koBungi }분기</option>
-										<option value="1">1분기</option>
-										<option value="2">2분기</option>
-										<option value="3">3분기</option>
-										<option value="4">4분기</option>
-								</select></th>
-
+							<tr id="cu_form_hidden" name="cu_form_hidden">
+								<th>${ vo.cuRnum }</th>
+								<th>
+								<input type="hidden" name="cuGrade" value="${ vo.cuGrade }"/>
+								${ vo.cuGrade }
+								</th>
+								<th>
+								<input type="hidden" name="cuClass" value="${ vo.cuClass }"/>
+								${ vo.cuClass }
+								</th>
+								<th>
+								<input type="hidden" name="cuTitle" value="${ vo.cuTitle }"/>
+								${ vo.cuTitle }
+								</th>
+								<th>
+								<input type="hidden" name="cuMessage" value="${ vo.cuMessage }"/>
+								${ vo.cuMessage }
+								</th>
+								<th>
+								<input type="hidden" name="cuDate" value="${ vo.cuDate }"/>
+								${ vo.cuDate }
+								</th>
+								<th>
+								<input type="hidden" name="cuDate2" value="${ vo.cuDate2 }"/>
+								${ vo.cuDate2 }
+								</th>
+								<th>
+								<input type="hidden" name="cuName" value="${ vo.cuName }"/>
+								${ vo.cuName }
+								</th>
+								<th>
+								<input type="hidden" name="cuCategory" value="${ vo.cuCategory }"/>
+								${ vo.cuCategory }
+								</th>
+								<th>
+								<input type="hidden" name="cuBungi" value="${ vo.cuBungi }"/>
+								${ vo.cuBungi }
+								</th>
+								<th>
+								<input type="hidden" name="cuSubject" value="${ vo.cuSubject }"/>
+								${ vo.cuSubject }
+								</th>
+								<th>
+								<input type="hidden" name="cuSign" value="${ vo.cuSign }"/>
+								${ vo.cuSign }
+								</th>
+								
 								<th><input type="button" value="삭제"
-									onclick="remove_item('${ vo.koRnum }')" /></th>
+									onclick="remove_item('${ vo.cuRnum }')" /></th>
 								<th><input type="button" value="수정" onclick="modify()" /></th>
 							</tr>
 						</c:forEach>
@@ -102,18 +94,16 @@
 
 			<div align="center">
 
-				<c:forEach var="ko_page" items="${ ko_pageList }" varStatus="status"
+				<c:forEach var="cu_page" items="${ cu_pageList }" varStatus="status"
 					begin="${ param.page_index_start }" end="${ param.page_index_end }">
-					<c:if test="${ ko_page % 5 == 1 && ko_page != 1 }">
-						<a
-							href="curriPro.do?page_index_start=${ param.page_index_start - 5 }&page_index_end=${ param.page_index_end - 5 }">
+					<c:if test="${ cu_page % 5 == 1 && cu_page != 1 }">
+						<a href="curriPro.do?page_index_start=${ param.page_index_start - 5 }&page_index_end=${ param.page_index_end - 5 }">
 							◀ 이전</a>
 					</c:if>
-					<a href="curriPro.do?ko_pageNum=${ ko_page }">${ ko_page }</a>
-					<%-- <c:set value="${ ko_pageList[status.index] }" var="page" /> --%>
-					<c:if test="${ ko_page % 5 == 0 }">
-						<a
-							href="curriPro.do?page_index_start=${ param.page_index_start + 5 }&page_index_end=${ param.page_index_end + 5 }">
+					<a href="curriPro.do?cu_pageNum=${ cu_page }">${ cu_page }</a>
+					<%-- <c:set value="${ cu_pageList[status.index] }" var="page" /> --%>
+					<c:if test="${ cu_page % 5 == 0 }">
+						<a href="curriPro.do?page_index_start=${ param.page_index_start + 5 }&page_index_end=${ param.page_index_end + 5 }&cu_pageNum=${ param.cu_page }">
 							다음 ▶ </a>
 					</c:if>
 				</c:forEach>
@@ -123,28 +113,15 @@
 			<br />
 
 		</form>
-		<div>
-			<form action="searchPro.do">
-				<select name="search" id="search" class="searchContext">
-					<option value="koGrade">학년</option>
-					<option value="koClass">반</option>
-					<option value="koMessage">내용</option>
-					<option value="koDate">날짜</option>
-					<option value="koName">이름</option>
-					<option value="koCategoly">카테고리</option>
-					<option value="koBungi">분기</option>
-				</select> 
-					<input type="text" name="searchText" id="searchText" placeholder="검색어를 입력하세요" required /> 
-					<input type="submit" value="검색" />
-			</form>
-		</div>
+		
 		<div align="left">
-			<input type="button" value="추가" onclick="add_item()" />
+			<input type="button" value="추가"" />
 		</div>
 		
 	</div>
 
 	<div style="margin-top: 15%; margin-left: 10%">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<jsp:include page="../home/footer.jsp"></jsp:include>
 	</div>
 </body>

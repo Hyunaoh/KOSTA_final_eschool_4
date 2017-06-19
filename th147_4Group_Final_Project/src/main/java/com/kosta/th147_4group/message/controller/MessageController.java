@@ -65,7 +65,7 @@ public class MessageController {
 				// 받는사람 메세지 아이디를 가져온다.
 				String meGet = allMemberList.get(i).getGrId();
 				// 보내는사람 메세지 아이디를 가져온다.
-				String meSend = "2017010101";
+				String meSend = (String)request.getSession().getAttribute("id");
 
 				mVo.setMeGet(meGet);
 				mVo.setMeSend(meSend);
@@ -90,7 +90,8 @@ public class MessageController {
 				// 받는사람 메세지 아이디를 가져온다.
 				String meGet = allMemberList2.get(i).getGrId();
 				// 보내는사람 메세지 아이디를 가져온다.
-				String meSend = "2017010101";
+				String meSend = (String)request.getSession().getAttribute("id");
+				
 				mVo.setMeGet(meGet);
 				mVo.setMeSend(meSend);
 
@@ -107,12 +108,14 @@ public class MessageController {
 
 		}
 		
+		model.addAttribute("msgRes", "1");
+		
 		return "message/messageForm";
 	}
 
 	@RequestMapping("/getMessage.do")
-	public String getMessage(Model model, Grade_2017VO vo) {
-		List<MessageVO> mList = dao.selectMessage("2017010103");
+	public String getMessage(Model model, Grade_2017VO vo, HttpServletRequest request) {
+		List<MessageVO> mList = dao.selectMessage((String)request.getSession().getAttribute("id"));
 
 		System.out.println(mList);
 		model.addAttribute("mList", mList);
